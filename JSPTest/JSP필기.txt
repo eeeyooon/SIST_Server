@@ -1,6 +1,7 @@
 06/20
 
--프로젝트 환경설정은 선생님 코드 참고
+
+- 새 프로젝트 생성 > New > Other > Web > Dynamic Web Project > Next > "JSPTest" > Target runtime(Apache Tomcat 8.5), Dynamic web module version(3.1) > Next > Next > Context root, Content directory, Generate web.xml(체크 O) > Finish
 
 
 JSP, Java Server Pages
@@ -70,7 +71,8 @@ page 지시자
 	
 include 지시자
 - <%@ include file="URL" %>
-- 
+- 특정 JSP 페이지(HTML, 텍스트파일 등)을 현재 JSP 페이지의 일부 영역으로 삽입하는 기능
+- 조각 페이지
 
 
 

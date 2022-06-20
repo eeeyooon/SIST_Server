@@ -11,7 +11,7 @@
 	<!-- 06.20 -->
 	
 	<h1>페이지 지시자</h1>
-	<p></p>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non enim rem quasi ipsa exercitationem veniam aliquid iste doloribus explicabo dignissimos numquam accusantium atque at dicta hic. Distinctio vero commodi ratione.</p>
 	
 	
 	<%
@@ -24,6 +24,8 @@
 		//NullPointerException
 	
 	%>
+	
+	<%@ include file="inc/copyright.jsp" %>
 
 </body>
 </html>

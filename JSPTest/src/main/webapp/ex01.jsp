@@ -15,6 +15,7 @@
 <body>
 	<!-- 06/20 -->
 	<!-- http://localhost:8090/JSPTest/ex01.jsp -->
+	<!-- 이렇게 보여도 HTML파일이 아니라 Java클래스임 -->
 	<!-- 얘도 Java로 만든 Java프로그램임. 겉모습에 속으면 안됨 -->
 	
 	<h1>JSP 페이지</h1>
@@ -31,8 +32,13 @@
 	
 	<p>현재 날짜: <%= String.format("%tT", now) %></p>
 	
+	<%@ include file="inc/copyright.jsp" %>
+	
 </body>
 </html>
 
 
-<!-- 이렇게 보여도 HTML파일이 아니라 Java클래스임 -->
+
+
+
+
