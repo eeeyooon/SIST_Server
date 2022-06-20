@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  
+  <display-name>ServletTest</display-name>
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 서블릿(알바생)의 가상 주소 매핑 -->
+  
+  <servlet>
+  		<servlet-name>ex02</servlet-name>
+ 		<servlet-class>com.test.servlet.Ex02</servlet-class>	 
+  </servlet>
+  
+  <servlet-mapping>
+  		<servlet-name>ex02</servlet-name>
+  		<url-pattern>/ex02.do</url-pattern>
+  		<!-- 어차피 가상이니까 어떤걸 넣어도 상관없음. 아무 의미없는 식별자임 -> url에 표기되는 것뿐 
+  			 보통은 파일이름 뒤에 프로젝트를 대표할 수 있는 단어를 넣음.
+  			 관례적으로 'do'를 많이 사용함. 우리 수업때도 그냥 do 사용 or 안쓰거나-->
+  </servlet-mapping>
+  
+  
+   <servlet>
+  		<servlet-name>ex03</servlet-name>
+ 		<servlet-class>com.test.servlet.Ex03</servlet-class>	 
+  </servlet>
+  
+  <servlet-mapping>
+  		<servlet-name>ex03</servlet-name>
+  		<url-pattern>/ex03.do</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- Ex04 -->
+  <servlet>
+  		<servlet-name>ex04send</servlet-name>
+ 		<servlet-class>com.test.servlet.Ex04_Send</servlet-class>	 
+  </servlet>
+  
+  <servlet-mapping>
+  		<servlet-name>ex04send</servlet-name>
+  		<url-pattern>/ex04send.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  		<servlet-name>ex04receive</servlet-name>
+ 		<servlet-class>com.test.servlet.Ex04_Receive</servlet-class>	 
+  </servlet>
+  
+  <servlet-mapping>
+  		<servlet-name>ex04receive</servlet-name>
+  		<url-pattern>/ex04receive.do</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
