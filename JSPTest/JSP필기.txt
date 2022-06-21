@@ -1,4 +1,4 @@
-06/20
+06/20 + 06/21
 
 
 - 새 프로젝트 생성 > New > Other > Web > Dynamic Web Project > Next > "JSPTest" > Target runtime(Apache Tomcat 8.5), Dynamic web module version(3.1) > Next > Next > Context root, Content directory, Generate web.xml(체크 O) > Finish
@@ -73,6 +73,31 @@ include 지시자
 - <%@ include file="URL" %>
 - 특정 JSP 페이지(HTML, 텍스트파일 등)을 현재 JSP 페이지의 일부 영역으로 삽입하는 기능
 - 조각 페이지
+
+
+
+
+스크립틀릿, Scriptlet
+- <% %>
+- Script + Applet
+- HTML 영역에서 Java를 사용가능한 영역을 제공
+- *.java와 동일한 성질
+- 사용 빈도 높음 > 비즈니스 코드 작성
+
+
+표현식, Expression
+- <%= 값 %>
+- 값: 
+
+
+
+
+
+
+
+
+
+
 
 
 
