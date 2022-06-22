@@ -21,6 +21,10 @@
 	2. 절대 경로
 		- '/' > 'http://localhost:8090'
 		- '/JSPTest' > webapp
+		
+		06/22 /JSPTest를 /jsp로 변경
+		
+		request.getContextPath() -> 이걸 사용하면 변경을 해도 알아서 변경된 컨텍스트 이름을 가져옴.
 	
  -->
 
@@ -29,9 +33,9 @@
 <link rel="stylesheet" href="../css/bootstrap.css" />
 -->
 
-<link rel="stylesheet" href="/JSPTest/example/css/bootstrap.css" />
-<script src="/JSPTest/example/js/jquery-1.12.4.js"></script>
-<script src="/JSPTest/example/js/bootstrap.js"></script>
+<link rel="stylesheet" href="<%= request.getContextPath() %>/example/css/bootstrap.css" />
+<script src="<%= request.getContextPath() %>/example/js/jquery-1.12.4.js"></script>
+<script src="<%= request.getContextPath() %>/example/js/bootstrap.js"></script>
 
 
 

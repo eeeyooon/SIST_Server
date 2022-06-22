@@ -129,6 +129,82 @@ request
 3. 클라이언트에서 서버로 전송할 때 관련 정보를 가져오기
 
 
+06/22
+
+response
+- HttpServletResponse
+
+1. 돌려줄 HTML 페이지 제작
+	- response.getWriter() > PrintWriter > HTML 제작
+	- 서블릿 > 명시적
+	- JSP > 암시적
+
+2. 돌려줄 페이지의 인코딩 설정
+	- response.setCharacterEncoding("UTF-8")
+	- 서블릿 > 명시적
+	- JSP > 명시적 > <%@ page pageEncoding="UTF-8" %>
+	
+
+3. 돌려줄 페이지의 MIME 설정
+
+4. 페이지 이동하기
+
+
+
+pageContext
+- 페이지 실행에 필요한 컨텍스트 정보를 저장하거나, 다른 내장 객체를 접근하거나, 페이지를 이동하는 역할
+	- ex14
+	
+	
+
+out
+- 응답 페이지 작성을 위한 출력 스트림 객체
+- 서블릿의 PrintWriter와 동일한 역할
+- ex15_out.jsp
+
+
+session, application
+
+application
+- 애플리케이션 정보를 저장한 객체
+- 서버와 관련된 정보 제공
+
+session
+- 클라이언트의 세션 정보를 저장한 객체
+- 방문한 사용자 정보를 관리하는객체
+	-> 세션: 접속한 상태를 표현.
+
+- ex17_session.jsp
+- ex17_set.jsp
+- ex17_del.jsp
+- ex17_interval.jsp
+- ex17_reset.jsp
+
+
+
+
+파일 업로드
+- 업로드: 클라이언트측 자원 > 서버 전송 (= 파일 복사)
+- 다운로드 서버측 자원 > 클라이언트 전송(= 파일 복사)
+- 브라우저와 웹서버 간의 파일 복사
+
+
+파일 업로드 라이브러리를 사용
+- cos library > cos.jar
+	-> 안정성도 높고 검증이 충분히 되어있음.
+- http://www.servlets.com
+- 다이나믹 웹 프로젝트는 jar 파일을 가져오는 방법이 다름
+	-> webapp > WEB-INF> lib에 바로 jar파일 붙여넣기
+- webapp > example > "files" 폴더 생성
+
+
+
+
+
+
+
+
+
 
 
 
