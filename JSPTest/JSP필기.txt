@@ -25,7 +25,7 @@ JSP 요소
 		- <%@ page 속성="값" 속성="값" 속성="값" %>
 		- 나머지 내용은 밑에서
 	- include 지시자
-	- taglib 지시자
+	- taglib 지시자 > 06/23 때 수업
 
 2. 스크립트 요소, Scripting Elements
 	- <% %>
@@ -199,8 +199,44 @@ session
 
 
 
+단일 파일 업로드
+-ex18_file_form.jsp
+-ex18_file_ok.jsp
 
 
+다중 파일 업로드
+-ex19_file_form.jsp
+-ex19_file_ok.jsp
+ 
+파일 업로드 (다운없이 첨부파일을 읽고 쓰기)
+-ex20_file_form.jsp
+-ex20_file_ok.jsp
+-ex20_file_delete.jsp (추가로)
+
+
+내장 객체 > 저장소 제공 > pageContext, request, session, application > 생명주기
+사용자 데이터 저장 > 4개의 객체 중 어떤 객체를 사용할지를 판단
+-ex21_scope_1.jsp
+-ex21_scope_2.jsp
+-ex21_scope_3.jsp
+
+
+EL 언어(Expression Language)
+- <%= %> 기능을 대신하기 위해 만들어진 언어 > 가독성(코드 관리)
+- 자바의 값을 HTML 페이지 소스에 출력하는 역할
+- ${속성명}
+- 일반적인 자바 데이터를 출력할 수 없다. > 변수, 상수, 메소드 반환값 등을 출력할 수 없다.
+- pageContext, request, session, application 객체 내 저장소의 값만 출력할 수 있다.
+
+-ex22_el.jsp
+
+
+JSTL 액션 태그
+- <c:XXX> 태그 사용
+- c: > Namespace > 자바 패키지 역할
+- JSP Standard Tag Libarary
+- http://tomcat.apache.org/taglibs/standard/  > (1.2.3 들어가면) 1.2.5 > Impl
+- ex23_jstl.jsp
 
 
 
