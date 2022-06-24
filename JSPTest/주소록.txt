@@ -1,0 +1,42 @@
+06/24
+
+
+주소록 
+- JSP Model 1
+- Oracle 11g
+- Bootstrap + jQuery
+- Apache Tomcat 8.5
+- Java 11
+
+
+기능 
+- CRUD 구현
+- 주소록 쓰기
+- 주소록 보기
+- 주소록 수정하기
+- 주소록 삭제하기
+
+
+DB
+- tblAddress
+- 번호(PK), 이름, 나이, 주소, 성별, 연락처
+
+
+디렉토리 구성 + 페이지 설계
+- 주소록: 		   webapp > address 폴더 (주소록 루트폴더)
+- 주소록: 주소록쓰기 : webapp > address > add.jsp, addok.jsp
+- 주소록: 주소록읽기 : webapp > address > list.jsp (시작 페이지)
+- 주소록: 주소록수정 : webapp > address > edit.jsp, editok.jsp
+- 주소록: 주소록삭제 : webapp > address > del.jsp, delok.jsp
+- 주소록: 템플릿    : webapp > address > template.jsp
+- 주소록: 조각페이지 : webapp > address > inc > header.jsp (머릿말 조각페이지)
+- 주소록: 조각페이지 : webapp > address > inc > asset.jsp (Bootstrap, jQuery)
+- 주소록: 라이브러리 : webapp > address > css > address.css (전역 CSS)
+- 주소록: 라이브러리 : webapp > address > js > address.js (전역 JavaScript)
+
+ 
+ 
+- 초반에 공통 틀 작업을 먼저 함 > template.jsp
+ 
+ 
+ 

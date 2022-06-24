@@ -1,0 +1,24 @@
+
+06/24
+
+이미지 갤러리
+
+1. list.jsp
+	- 목록 보기
+	- DB > select .. > 사진 아이템 생성
+	- 사진 아이템 클릭 > 제목, 파일명, 날짜, 사진 
+	
+2. add.jsp + addok.jsp
+	- 제목, 이미지  > 서버 전송 //add.jsp
+	- 파일 업로드 처리 + 제목, 이미지명 > DB > insert //addok.jsp
+	
+	
+3. delok.jsp
+	- 파일 삭제 (1)
+	- DB > delete (2)
+
+
+DB
+- JSPTest > gallery.sql 
+
+
