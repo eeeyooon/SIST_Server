@@ -239,58 +239,99 @@ JSTL 액션 태그
 - ex23_jstl.jsp
 
 
-주소록 
-- JSP Model 1
+
+
+
+06/27
+
+
+Servlet
+- Java > O
+- HTML > X
+
+
+JSP
+- HTML > O
+- Java > X
+
+
+Servlet + JSP = 융합(X) > 협력(O)
+- Servlet(Java) + JSP(HTML)
+- Servlet > Java
+- JSP > HTML
+
+
+JSP Model 1의 처리 방식 > 공통점
+1. 상단에서 주로 자바 작업을 한다. (JDBC) > Servlet 담당
+2. 하단에서 주로 자바의 결과물을 가지고 화면에 출력 작업(HTML, CSS, JavaScript)을 한다. > JSP 담ㄷ장
+
+JSP Model 2의 처리 방식(******************************)
+- 고객 요청 > Servlet 시작~끝 (Servlet이 먼저) > (업무 위임 + 데이터 전달) > JSP 시작~끝
+
+
+JSP Model 1 > JSP Model 2 (이제부터 Model 2 방식으로 수업 예정)
+
+
+JSP Model 1
+- JSP 페이지만을 사용
+- HTML, CSS, JavaScript > JSP 페이지 작성
+- Java > JSP 페이지 작성
+
+
+
+JSP Model 2
+- Servlet + JSP
+- 디자인 패턴 > MVC 기반으로 만들어짐.
+- JSP MVC (정식 표현 X > 안쓰고 모델2라고 하는게 더 좋음)
+	- Model + View + Controller
+	- Model > Data 계층
+	- View > 출력 계층
+	- Controller > 제어 계층 > 서블릿
+
+- "com.test.mvc" 패키지 생성
+	- "Hello.java" 서블릿 생성
+- webapp > "mvc" 폴더 생성
+	- "hello.jsp" 페이지 생성
+	
+	****첫 호출은 서블릿 !! JSP로 브라우저 부르지마
+
+
+
+주소록, 갤러리, 투두리스트 / ..
+
+
+메모장
+- JSP Model 2 방식으로
 - Oracle 11g
-- Bootstrap + jQuery
-- Apache Tomcat 8.5
-- Java 11
+- Bootstrap, jQuery
 
+기능
+1. 메모 쓰기
+2. 메모 읽기(목록)
+3. 메모 수정
+4. 메모 삭제
 
-기능 
-- CRUD 구현
-- 주소록 쓰기
-- 주소록 보기
-- 주소록 수정하기
-- 주소록 삭제하기
-
-
-DB
-- tblAddress
-- 번호(PK), 이름, 나이, 주소, 성별, 연락처
-
-
-디렉토리 구성 + 페이지 설계
-- 주소록: 		   webapp > address 폴더 (주소록 루트폴더)
-- 주소록: 주소록쓰기 : webapp > address > add.jsp, addok.jsp
-- 주소록: 주소록읽기 : webapp > address > list.jsp (시작 페이지)
-- 주소록: 주소록수정 : webapp > address > edit.jsp, editok.jsp
-- 주소록: 주소록삭제 : webapp > address > del.jsp, delok.jsp
-- 주소록: 조각페이지 : webapp > address > inc > header.jsp (머릿말 조각페이지)
-- 주소록: 조각페이지 : webapp > address > inc > asset.jsp (Bootstrap, jQuery)
-- 주소록: 라이브러리 : webapp > address > css > address.css (전역 CSS)
-- 주소록: 라이브러리 : webapp > address > js > address.js (전역 JavaScript)
-
- 
--> 주소록.txt로 
-
-
-이미지 갤러리
-
-1. list.jsp
-	- 목록 보기
-	
-2. add.jsp + addok.jsp
+- "com.test.memo"
+	- DBUtill.java 		   		> 복사
+	- List.java 		   		> 메모 읽기
+	- Add.java, AddOk.java 		> 메모 쓰기
+	- Edit.java, EditOk.java	> 메모 수정
+	- Del.java, DelOk.java		> 메모 삭제
+	- "Template.java"
 	
 	
-3. delok.jsp
+- webapp > WEB-INF > "views" > "memo"
+								- "list.jsp" 					> 메모 읽기	
+								- "add.jsp", "addok.jsp" 	> 메모 쓰기
+								- "edit.jsp", "editok.jsp"	> 메모 수정
+								- "del.jsp", "delok.jsp"	> 메모 삭제
+								- "template.jsp"
 
-
-DB
-- webapp > 
-
-
-
+- webapp > WEB-INF > views > memo > "inc"
+								- header.jsp 		> 조각 페이지
+								- asset.jsp			> 조각 페이지
+- webapp > "asset"
+			- css, js, fonts
 
 
 

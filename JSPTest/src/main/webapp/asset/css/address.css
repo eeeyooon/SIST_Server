@@ -1,0 +1,80 @@
+
+
+/* css > address.css */
+
+
+main {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	background-color: #DEDEDE;
+	/* 세로가 메인축으로
+		vh : view height = 보이는 화면의 높이 (100%를 준것)
+	
+	 */
+}
+
+main > header {
+	/* border-bottom: 1px solid black; */
+	height: 100px;
+	/* background-color: tomato; */
+	/* background-color: #CDCDCD; */
+}
+
+main > header > div {
+	display: flex;
+	justify-content: space-between;
+	height: 100px;
+	border-bottom: 1px dashed #AAA;
+}
+
+main > header h1 {
+	margin: 0;
+	padding: 0;
+	font-size: 30px;
+	padding-top: 40px;
+	padding-left: 25px;
+}
+
+
+main > header > div > div {
+	padding-right: 20px;
+	padding-top: 46px;
+	
+}
+
+main > section {
+	/* background-color: gold;  */
+	height: 100%;
+}
+
+
+main > section > div {
+	height: calc(100vh - 100px);
+	/* 그냥 100vh를 주면 스크롤바가 생기니까 헤더 높이 100px를 뺌 > 본문은 전체화면에서 헤더를 뺀 높이 */
+	padding: 20px;
+}
+
+
+main .content {
+	
+	width: 700px;
+	margin: 0px auto;
+	border-left: 1px solid #999;
+	border-right: 1px solid #999;
+	/* box-shadow: 0px 0px 3px #777; */
+	background-color: white;
+	
+}
+
+
+.form-control.short {
+	width: 100px;
+}
+
+.form-control.middle {
+	width: 200px;
+}
+
+
+
