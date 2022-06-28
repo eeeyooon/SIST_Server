@@ -30,17 +30,16 @@ public class List extends HttpServlet {
 		
 		ArrayList<DTO> list = dao.list();
 		
-		//2.5 -> 엔터 공백 인식시키기
-		
+		//2.5
 		for (DTO dto : list) {
 			dto.setContent(dto.getContent().replace("\r\n", "<br>"));
 		}
 		
-		//3.
-		req.setAttribute("list", list);
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/memo/list.jsp");
+		//3.
+		req.setAttribute("list", list);		
 
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/memo/list.jsp");
 		dispatcher.forward(req, resp);
 
 	}

@@ -150,5 +150,56 @@ public class DAO {
 		
 		return 0;
 	}
+
+	
+	//EditOk 서블릿이 메모 번호와 입력 암호를 줄테니 이게 맞는건지 확인해주세요~
+	public boolean check(DTO dto) {
+
+		try {
+			
+			String sql = "select count(*) as cnt from tblMemo where seq = ? and pw = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getSeq());
+			pstat.setString(2, dto.getPw());
+			
+			rs = pstat.executeQuery();
+			
+			if (rs.next()) {
+				
+				return rs.getInt("cnt") == 1 ? true : false;				
+			}
+			
+		} catch (Exception e) {
+			System.out.println("DAO.check");
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	
+	
+	public int del(String seq) {
+		
+		try {
+			
+			String sql = "delete from tblMemo where seq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, sql);
+			
+			return pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("DAO.del");
+			e.printStackTrace();
+
+		}
+		
+		return 0;
+	}
+
+
 	
 }

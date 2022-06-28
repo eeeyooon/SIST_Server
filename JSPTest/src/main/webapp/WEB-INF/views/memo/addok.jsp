@@ -29,6 +29,7 @@
 		location.href = '/jsp/memo/list.do';
 		</c:if>
 		
+		
 		<c:if test="${result == 0}">
 		alert('쓰기 실패;;');
 		history.back();
