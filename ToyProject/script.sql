@@ -51,7 +51,7 @@ select seq, subject, content, id, (select name from tblUser where id = tblBoard.
 select * from vwBoard;
 
 
-
+drop table tblComment;
 
 --댓글 테이블
 create table tblComment (
@@ -67,6 +67,9 @@ create table tblComment (
 
 create sequence seqComment;
 
+
+
+select * from tblComment;
 
 
 

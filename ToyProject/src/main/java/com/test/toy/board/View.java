@@ -60,10 +60,10 @@ public class View extends HttpServlet {
 		//- 출력 데이터 조작하기
 		
 		// 태그 비활성화
-		//	- 내용
-		dto.setContent(dto.getContent().replace("<", "&lt;").replace(">", "&gt;"));
 		// 	- 제목
 		dto.setSubject(dto.getSubject().replace("<", "&lt;").replace(">", "&gt;"));
+		//	- 내용
+		dto.setContent(dto.getContent().replace("<", "&lt;").replace(">", "&gt;"));
 		
 		
 		// 개행 인식하기 (엔터포함하기)
@@ -75,11 +75,9 @@ public class View extends HttpServlet {
 		if (isSearch.equals("y") && column.equals("content")) {
 			
 			//안녕하세요. 홍길동입니다.
-			//안녕하세요. <span style="background-color: yellow; color: red;">홍길동</span>입니다.
+			//안녕하세요. <span style="background-color:yellow;color:red;">홍길동</span>입니다.
 			
-			dto.setContent(dto.getContent().replace(word, "<span style=\"background-color: yellow; color: red;\">" + word + "</span>"));
-			
-			
+			dto.setContent(dto.getContent().replace(word, "<span style=\"background-color:yellow;color:red;\">" + word + "</span>"));
 			
 		}
 		
@@ -96,7 +94,7 @@ public class View extends HttpServlet {
 		
 		
 		//4.
-		req.setAttribute("dto", dto);
+		req.setAttribute("dto", dto);	
 		
 		//view.jsp에도 Hashmap 내용을 줘야 함. (근데 해쉬맵은 안만들었으니까 하나씩 줘야함)
 		

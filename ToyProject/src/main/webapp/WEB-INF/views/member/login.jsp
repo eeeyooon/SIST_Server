@@ -60,9 +60,15 @@
 			</form>
 			&nbsp;
 			<form method="POST" action="/toy/member/loginok.do">
-				<input type="hidden" name="id" value="hoho">
+				<input type="hidden" name="id" value="haha">
 				<input type="hidden" name="pw" value="1111">
-				<input type="submit" value="호호호(hoho)" class="btn btn-success">
+				<input type="submit" value="호호호(haha)" class="btn btn-success">
+			</form>
+			&nbsp;
+			<form method="POST" action="/toy/member/loginok.do">
+				<input type="hidden" name="id" value="baegopa">
+				<input type="hidden" name="pw" value="1111">
+				<input type="submit" value="배불러(baegopa)" class="btn btn-success">
 			</form>
 			</div>
 			

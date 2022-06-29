@@ -22,7 +22,6 @@
 			
 			<table class="table table-bordered vertical">
 				<tr>
-
 					<th>제목</th>
 					<td>${dto.subject}</td>
 				</tr>
@@ -32,7 +31,7 @@
 				</tr>
 				<tr>
 					<th>이름</th>
-					<td>${dto.name}</td>
+					<td>${dto.name}(${dto.id})</td>
 				</tr>
 				<tr>
 					<th>날짜</th>
@@ -110,14 +109,13 @@
 					<td>
 						<div>${cdto.content}</div>
 						<div>
-						<span>${cdto.regdate}</span>
-						<span>${cdto.name}(${cdto.id})</span>
+							<span>${cdto.regdate}</span>
+							<span>${cdto.name}(${cdto.id})</span>
 						</div>
 					</td>
 				</tr>
 				</c:forEach>
-
-			</table>			
+			</table>		
 			
 			
 			

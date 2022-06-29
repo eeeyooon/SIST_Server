@@ -156,17 +156,13 @@ public class BoardDAO {
 			String sql = "update tblBoard set readcount = readcount + 1 where seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
-			
 			pstat.setString(1, seq);
 			
-			pstat.executeQuery();
-			
-			
+			pstat.executeUpdate();			
 			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.updateReadcount");
 			e.printStackTrace();
-
 		}
 		
 	}
@@ -219,13 +215,13 @@ public class BoardDAO {
 		return 0;
 	}
 
-
+	
+	//AddCommentOk 서블릿 > dto > 댓글 추가해주세요~
 	public int addComment(CommentDTO dto) {
 		
-
 		try {
 			
-			String sql = "insert into tblComment (seq, content, id, regdate, pseq) values (seqComment.nextVal, ?, ?, default, ?";
+			String sql = "insert into tblComment (seq, content, id, regdate, pseq) values (seqComment.nextVal, ?, ?, default, ?)";
 			
 			pstat = conn.prepareStatement(sql);
 			
@@ -239,7 +235,7 @@ public class BoardDAO {
 			System.out.println("BoardDAO.addComment");
 			e.printStackTrace();
 		}
-	
+		
 		return 0;
 	}
 
@@ -259,6 +255,7 @@ public class BoardDAO {
 			ArrayList<CommentDTO> clist = new ArrayList<CommentDTO>();
 			
 			while (rs.next()) {
+				
 				CommentDTO dto = new CommentDTO();
 				
 				dto.setSeq(rs.getString("seq"));
@@ -268,16 +265,13 @@ public class BoardDAO {
 				dto.setRegdate(rs.getString("regdate"));
 				
 				clist.add(dto);
-				
 			}
 			
 			return clist;
 			
-			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.listComment");
 			e.printStackTrace();
-			
 		}
 		
 		return null;
