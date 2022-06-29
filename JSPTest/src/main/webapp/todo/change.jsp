@@ -5,29 +5,30 @@
     pageEncoding="UTF-8"%>
 <%
 
-	//1.
-	request.setCharacterEncoding("UTF-8");
-
-	//2.
-	String todo = request.getParameter("todo");
-	String priority = request.getParameter("priority");
+	String seq = request.getParameter("seq");
+	String complete = request.getParameter("complete");
 	
+	if (complete.equals("n")) {
+		complete = "y";
+	} else {
+		complete = "n";
+	}
 	
 	int result = 0;
 	
 	try {
-		//3.		
+		
 		Connection conn = null;
 		PreparedStatement stat = null;
 		
 		conn = DBUtil.open();
 				
-		String sql = "insert into tblTodo (seq, todo, regdate, priority, complete) values (seqTodo.nextval, ?, default, ?, default)";
+		String sql = "update tblTodo set complete = ? where seq = ?";
 		
 		stat = conn.prepareStatement(sql);
 		
-		stat.setString(1, todo);
-		stat.setString(2, priority);
+		stat.setString(1, complete);
+		stat.setString(2, seq);
 		
 		result = stat.executeUpdate();
 		
@@ -56,7 +57,7 @@
 		
 		<% } else { %>
 		
-		alert('추가 실패;;');
+		alert('수정 실패;;');
 		history.back();
 		
 		<% } %> 

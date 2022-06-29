@@ -20,16 +20,16 @@
 	<main>
 		<h1>Todo <small>Add</small></h1>
 		
-		<form>
+		<form method="POST" action="addok.jsp">
 		<table class="table table-bordered add">
 			<tr>
 				<th>할일</th>
-				<td><input type="text" class="form-control" required></td>
+				<td><input type="text" name="todo" class="form-control" required></td>
 			</tr>	
 			<tr>
 				<th>중요도</th>
 				<td>
-					<select class="form-control">
+					<select name="priority" class="form-control">
 						<option value="A">A</option>
 						<option value="B" selected>B</option>
 						<option value="C">C</option>
@@ -41,8 +41,8 @@
 		<div class="btns">
 			<input type="button" value=" 돌아가기 "
 				class="btn btn-secondary" onclick="location.href='list.jsp';">
-			<input type="button" value="등록하기"
-				class="btn btn-warning" onclick="location.href='add.jsp';">
+			<input type="submit" value="등록하기"
+				class="btn btn-warning">
 		</div>
 		</form>
 	</main>

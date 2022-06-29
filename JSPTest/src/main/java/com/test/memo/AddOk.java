@@ -14,17 +14,16 @@ public class AddOk extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
+
 		//AddOk.java
 		//1. 인코딩 처리
 		//2. 데이터 가져오기
 		//3. DB 작성 > insert
 		//	3.1 DAO 위임
 		//	3.2 DTO 생성
-		//4. int result 
-		//	- 1 > 성공
-		// 	- 0 > 실패
+		//4. int result
+		//	- 1. 성공
+		//	- 0. 실패
 		//5. JSP 호출하기
 		//	- 4번 전달하기
 		
@@ -57,7 +56,16 @@ public class AddOk extends HttpServlet {
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/memo/addok.jsp");
 		dispatcher.forward(req, resp);
 	}
+
 }
+
+
+
+
+
+
+
+
 
 
 

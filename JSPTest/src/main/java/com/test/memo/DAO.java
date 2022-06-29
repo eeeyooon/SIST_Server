@@ -6,7 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-//**** DAO의 업무 메소드는 하나의 업무 메소드에서는 하나의 업무만 진행한다!!!
+
+//***** DAO의 업무 메소드는 하나의 업무 메소드에서는 하나의 업무만 진행한다!!!
 public class DAO {
 
 	private Connection conn;
@@ -45,7 +46,7 @@ public class DAO {
 	}
 
 
-	//List 서블릿이 메모 목록을 달라고 요청
+	//List 서블릿이 메모 목록 주세요~
 	public ArrayList<DTO> list() {
 		
 		try {
@@ -59,35 +60,30 @@ public class DAO {
 			ArrayList<DTO> list = new ArrayList<DTO>();
 			
 			while (rs.next()) {
-				//레코드 1 줄이 > DTO 1개로 옮겨담아야
+				//레코드 1줄 > DTO 1개
 				DTO dto = new DTO();
 				
 				dto.setSeq(rs.getString("seq"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
-				dto.setContent(rs.getString("name"));
+				dto.setName(rs.getString("name"));
 				dto.setRegdate(rs.getString("regdate"));
 				
-				list.add(dto);
-				
+				list.add(dto);			
 			}
 			
-			
-			//*****
 			return list;
 			
 		} catch (Exception e) {
 			System.out.println("DAO.list");
 			e.printStackTrace();
-
 		}
-		
 		
 		return null;
 	}
 
-	
-	//Edit 서블릿이 메모 번호를 줄테니 레코드(행) 전체를 달라고 요청
+
+	//Edit 서블릿이 메모 번호를 줄테니 레코드 전체를 주세요~
 	public DTO get(String seq) {
 		
 		try {
@@ -99,6 +95,7 @@ public class DAO {
 			
 			rs = pstat.executeQuery();
 			
+			
 			DTO dto = new DTO();
 			
 			if (rs.next()) {
@@ -106,9 +103,9 @@ public class DAO {
 				dto.setSeq(rs.getString("seq"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
-				dto.setContent(rs.getString("name"));
+				dto.setName(rs.getString("name"));
 				dto.setRegdate(rs.getString("regdate"));
-				
+								
 			}
 			
 			return dto;
@@ -116,42 +113,38 @@ public class DAO {
 		} catch (Exception e) {
 			System.out.println("DAO.get");
 			e.printStackTrace();
-
 		}
 		
-		// 
 		return null;
 	}
 
-	
-	//EditOK 서블릿에서 수정할 DTO 넘겨줄테니까 수정 요청
+
+	//EditOk 서블릿에서 수정할 DTO 넘겨줄테니 수정해주세요~
 	public int edit(DTO dto) {
 		
 		try {
 			
-			String sql = "update tblMemo set subject = '', content = '', name = '' where seq = 1";
+			
+			String sql = "update tblMemo set subject = ?, content = ?, name = ? where seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
+			
 			pstat.setString(1, dto.getSubject());
 			pstat.setString(2, dto.getContent());
 			pstat.setString(3, dto.getName());
 			pstat.setString(4, dto.getSeq());
 			
-			
 			return pstat.executeUpdate();
-			
 			
 		} catch (Exception e) {
 			System.out.println("DAO.edit");
 			e.printStackTrace();
-
 		}
-		
 		
 		return 0;
 	}
 
-	
+
 	//EditOk 서블릿이 메모 번호와 입력 암호를 줄테니 이게 맞는건지 확인해주세요~
 	public boolean check(DTO dto) {
 
@@ -177,9 +170,9 @@ public class DAO {
 		
 		return false;
 	}
-	
-	
-	
+
+
+	//DelOk 서블릿이 seq을 줄테니까 삭제해주세요~
 	public int del(String seq) {
 		
 		try {
@@ -187,19 +180,41 @@ public class DAO {
 			String sql = "delete from tblMemo where seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
-			pstat.setString(1, sql);
+			pstat.setString(1, seq);
 			
 			return pstat.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println("DAO.del");
 			e.printStackTrace();
-
 		}
 		
 		return 0;
 	}
-
-
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,8 +1,26 @@
+<%@page import="com.test.jsp.DBUtil"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 
+	//1. DB 작업 > select > 결과
+	//2. 결과 출력
 	
+	//1.
+	Connection conn = null;
+	Statement stat = null;
+	ResultSet rs = null;
+	
+	conn = DBUtil.open();
+	
+	String sql = "select * from tblGallery order by regdate desc";
+	
+	stat = conn.createStatement();
+	
+	rs = stat.executeQuery(sql);
 
 %>    
 <!DOCTYPE html>
@@ -92,20 +110,12 @@
 		
 		<div id="list">
 		
-			<div style="background-image:url(images/rect_icon10.png);" data-toggle="modal" data-target="#exampleModal" onclick="showImage('rect_icon10.png', '시계 아이콘', '2022-06-24 12:30:00');">
-				<span title="delete" onclick="deleteImage('rect_icon10.png');">&times;</span>
-				<div class="title">시계 아이콘</div>
+			<% while (rs.next()) { %>
+			<div style="background-image:url(images/<%= rs.getString("filename") %>);" data-toggle="modal" data-target="#exampleModal" onclick="showImage('<%= rs.getString("filename") %>', '<%= rs.getString("subject") %>', '<%= rs.getString("regdate") %>');">
+				<span title="delete" onclick="deleteImage('<%= rs.getString("seq") %>');">&times;</span>
+				<div class="title"><%= rs.getString("subject") %></div>
 			</div>
-			
-			<div style="background-image:url(images/puzzle.png);" data-toggle="modal" data-target="#exampleModal" onclick="showImage('puzzle.png', '날아라 시바!!', '2022-06-24 12:30:00');">
-				<span title="delete" onclick="deleteImage('puzzle.png');">&times;</span>
-				<div class="title">날아라 시바!!</div>
-			</div>
-			
-			<div style="background-image:url(images/placeimg_500_200_people.jpg);" data-toggle="modal" data-target="#exampleModal" onclick="showImage('placeimg_500_200_people.jpg', '바탕 화면', '2022-06-24 12:30:00');">
-				<span title="delete" onclick="deleteImage('placeimg_500_200_people.jpg');">&times;</span>
-				<div class="title">바탕 화면</div>
-			</div>
+			<% } %>
 				
 		</div>
 
@@ -141,7 +151,6 @@
 	<script>
 	
 		function showImage(img, title, regdate) {
-			//alert(img);
 			
 			$('.modal-body > img').attr('src', 'images/' + img);
 			$('#exampleModalLabel > span').eq(0).text(title + '(' + img + ')');
@@ -149,11 +158,10 @@
 			
 		}
 		
-		function deleteImage(img) {
-			//alert(img);
+		function deleteImage(seq) {
 						
 			if (confirm('delete?')) { 
-				location.href = 'delok.jsp';
+				location.href = 'delok.jsp?seq=' + seq;
 			}
 			
 			event.stopPropagation();

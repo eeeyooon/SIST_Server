@@ -1,14 +1,13 @@
 package com.test.memo;
 
 public class DTO {
-	
+
     private String seq;
     private String subject;
     private String content;
     private String name;
     private String pw;
     private String regdate;
-    
     
 	public String getSeq() {
 		return seq;
@@ -22,19 +21,17 @@ public class DTO {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getPw() {
 		return pw;
@@ -50,5 +47,6 @@ public class DTO {
 	}
     
     
-    
+	
 }
+

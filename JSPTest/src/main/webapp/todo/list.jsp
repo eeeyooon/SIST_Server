@@ -1,8 +1,22 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="com.test.jsp.DBUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
 
+	Connection conn = null;
+	Statement stat = null;
+	ResultSet rs = null;
 	
+	conn = DBUtil.open();
+	
+	String sql = "select * from tblTodo order by regdate asc";
+	
+	stat = conn.createStatement();
+	
+	rs = stat.executeQuery(sql);
 
 %>    
 <!DOCTYPE html>
@@ -26,21 +40,19 @@
 				<th>할일</th>
 				<th>날짜</th>
 			</tr>
-			<tr>
-				<td>A</td>
-				<td>수업 복습하기</td>
-				<td>2022-06-24 12:12:20</td>
+			<% 
+				while (rs.next()) { 
+					String temp = "";
+					if (rs.getString("complete").equals("y")) {
+						temp = "class=\"complete\"";
+					}
+			%>
+			<tr <%= temp %>>
+				<td><%= rs.getString("priority") %></td>
+				<td onclick="change(<%= rs.getString("seq") %>, '<%= rs.getString("complete") %>');"><%= rs.getString("todo") %></td>
+				<td><%= rs.getString("regdate") %></td>
 			</tr>
-			<tr class="complete">
-				<td>C</td>
-				<td>마트 장보기</td>
-				<td>2022-06-24 12:12:20</td>
-			</tr>
-			<tr>
-				<td>C</td>
-				<td>방청소하기</td>
-				<td>2022-06-24 12:12:20</td>
-			</tr>
+			<% } %>
 		</table>
 		
 		<div class="btns">
@@ -50,7 +62,9 @@
 	</main>
 	
 	<script>
-		
+		function change(seq, complete) {
+			location.href = 'change.jsp?seq=' + seq + '&complete=' + complete;
+		}
 	</script>
 
 </body>
