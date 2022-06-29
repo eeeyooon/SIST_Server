@@ -13,30 +13,73 @@
 </style>
 </head>
 <body>
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
-		
+			
 			<h2>Board</h2>
 			
-			<table class="table table-border">
+			<table class="table table-bordered horizontal">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>이름</th>
+					<th>날짜</th>
+					<th>읽음</th>
+				</tr>
+				<c:forEach items="${list}" var="dto">
+				<%-- <c:if test="${dto.readcount < 10}"> --%>
+				<tr>
+				<%-- </c:if>
+				<c:if test="${dto.readcount >= 10}">
+				<tr style="background-color: gold;">
+				</c:if> --%>
+					<td>${dto.seq}</td>
+					<td>
+						<a href="/toy/board/view.do?seq=${dto.seq}">${dto.subject}</a>
+					</td>
+					<td>${dto.name}</td>
+					<td>${dto.regdate}</td>
+					<td>${dto.readcount}</td>
+				</tr>
+				</c:forEach>			
 			</table>
-			
-			<div class="btns">
-			
-			</div>
+				
+				<c:if test="${not empty auth}">
+				<div class="btns">
+					<button class="btn btn-primary" onclick="location.href='/toy/board/add.do';">
+						<i class="fas fa-pen"></i>
+						글쓰기
+					</button>
+				</div>
+				</c:if>
+		
 			
 		</section>
-	
 	</main>
-
-	<script>
 	
+	<script>
+		
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

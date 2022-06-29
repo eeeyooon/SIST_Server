@@ -9,25 +9,46 @@
 <title>Toy Project</title>
 <%@ include file="/WEB-INF/views/inc/asset.jsp" %>
 <style>
-
+	.btns {
+		margin-top: 20px;
+	}
 </style>
 </head>
 <body>
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
 			
+			<h2>Unregister</h2>
+			
+			<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem quisquam molestiae placeat id illum aliquid accusantium assumenda inventore iure error natus neque excepturi cum aspernatur eum. Ad quasi recusandae velit!</div>
+			
+			<div class="btns">
+				<input type="button" value="돌아가기" class="btn btn-secondary"
+					onclick="location.href='/toy/index.do';">
+				<input type="button" value="탈퇴하기" class="btn btn-primary"
+					onclick="location.href='/toy/member/unregisterok.do';">
+			</div>
+			
 		</section>
-	
 	</main>
-
-	<script>
 	
+	<script>
+		
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

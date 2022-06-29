@@ -13,15 +13,14 @@
 </style>
 </head>
 <body>
-	
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
 			
 			<h2>Login</h2>
 			
-			<form>
+			<form method="POST" action="/toy/member/loginok.do">
 			<table class="table table-bordered vertical">
 				<tr>
 					<th>아이디</th>
@@ -33,10 +32,9 @@
 				</tr>
 			</table>
 			<div class="btns">
-				
-				<input type="button" value="돌아가기" class="btn btn-secondary" onclick="history.back();">
+				<input type="button" value="돌아가기" class="btn btn-secondary"
+					onclick="history.back();">
 				<input type="submit" value="로그인" class="btn btn-primary">
-			
 			</div>
 			</form>
 			
@@ -46,38 +44,46 @@
 			<form method="POST" action="/toy/member/loginok.do">
 				<input type="hidden" name="id" value="admin">
 				<input type="hidden" name="pw" value="1111">
-				<input type="submit" value="관리자(admin)" class="btn-success">
+				<input type="submit" value="관리자(admin)" class="btn btn-success">
 			</form>
 			&nbsp;
 			<form method="POST" action="/toy/member/loginok.do">
 				<input type="hidden" name="id" value="hong">
 				<input type="hidden" name="pw" value="1111">
-				<input type="submit" value="홍길동(hong)" class="btn-success">
+				<input type="submit" value="홍길동(hong)" class="btn btn-success">
 			</form>
 			&nbsp;
 			<form method="POST" action="/toy/member/loginok.do">
 				<input type="hidden" name="id" value="test">
 				<input type="hidden" name="pw" value="1111">
-				<input type="submit" value="테스트(test)" class="btn-success">
+				<input type="submit" value="테스트(test)" class="btn btn-success">
 			</form>
 			&nbsp;
 			<form method="POST" action="/toy/member/loginok.do">
 				<input type="hidden" name="id" value="hoho">
 				<input type="hidden" name="pw" value="1111">
-				<input type="submit" value="호호(hoho)" class="btn-success">
+				<input type="submit" value="호호호(hoho)" class="btn btn-success">
 			</form>
 			</div>
 			
 		</section>
-	
 	</main>
-
-	<script>
 	
+	<script>
+		
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

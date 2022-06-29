@@ -13,25 +13,26 @@
 </style>
 </head>
 <body>
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
 			
 		</section>
-	
 	</main>
-
+	
 	<script>
 		
 		location.href = '/toy/index.do';
-		
-		
 	
 	</script>
 
 </body>
 </html>
+
+
+
+
 
 
 

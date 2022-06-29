@@ -14,15 +14,32 @@ public class Unregister extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+
 		//Unregister.do
 		
 		
-		
-		
+
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/member/unregister.jsp");
-
 		dispatcher.forward(req, resp);
-
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

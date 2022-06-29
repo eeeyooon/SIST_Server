@@ -38,4 +38,15 @@ create table tblBoard (
     readcount number default 0 not null                                 --조회수
 );
 
+drop sequence seqBoard;
+
+create sequence seqBoard;
+
+select * from tblBoard;
+
+create or replace view vwBoard
+as
+select seq, subject, id, (select name from tblUser where id = tblBoard.id) as name, regdate, readcount from tblBoard order by seq desc;
+
+
 

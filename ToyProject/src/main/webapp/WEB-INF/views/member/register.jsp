@@ -20,9 +20,8 @@
 		<section>
 			<h2>Register</h2>
 			
-			
 			<form method="POST" action="/toy/member/registerok.do"
-					enctype="multipart/form-data">
+										enctype="multipart/form-data">
 			
 			<table class="table table-bordered vertical">
 				<tr>
@@ -39,24 +38,42 @@
 				</tr>
 				<tr>
 					<th>사진</th>
-					<td><input type="file" name="file" class="form-control"></td>
+					<td><input type="file" name="pic" class="form-control"></td>
 				</tr>
 			</table>
 			
 			<div class="btns">
-				<input type="button" value="돌아가기" class="btn btn-secondary" onclick="location.href='/toy/index.do';">
+				<input type="button" value="돌아가기" class="btn btn-secondary"
+					onclick="location.href='/toy/index.do';">
 				<input type="submit" value="등록하기" class="btn btn-primary">
 			</div>
 			
 			</form>
 			
 		</section>
-	
 	</main>
-
-	<script>
 	
+	<script>
+		
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

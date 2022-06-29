@@ -15,14 +15,16 @@ public class LoginOk extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		//LoginOk
+
+		//LoginOk.java
 		//1. 데이터 가져오기
 		//2. DB 작업 > DAO 위임 > select
 		//3. 결과 > 인증 티켓 발급
 		//4. JSP 호출하기
 		
+		
 		HttpSession session = req.getSession();
+		
 		
 		//1.
 		String id = req.getParameter("id");
@@ -48,12 +50,31 @@ public class LoginOk extends HttpServlet {
 			session.setAttribute("name", result.getName());
 			session.setAttribute("lv", result.getLv());
 			
-		} 
+		}
 		
-		
+		//4.
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/member/loginok.jsp");
-
 		dispatcher.forward(req, resp);
-
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

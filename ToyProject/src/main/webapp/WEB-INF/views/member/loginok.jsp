@@ -13,32 +13,38 @@
 </style>
 </head>
 <body>
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
 			
 		</section>
-	
 	</main>
-
+	
 	<script>
 		
-		<c:if test="${not empty auth}"> //이게 null인지 묻는것
-		location.href='/toy/index.do';
+		<c:if test="${not empty auth}">
+		location.href = '/toy/index.do';
 		</c:if>
 		
 		<c:if test="${empty auth}">
 		alert('failed');
 		history.back();
 		</c:if>
-		
-		
 	
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

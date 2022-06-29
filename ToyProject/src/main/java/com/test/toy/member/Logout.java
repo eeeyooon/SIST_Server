@@ -15,8 +15,8 @@ public class Logout extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		//Logout.java (logoutok 역할)
+
+		//Logout.java
 		//1. 로그아웃
 		//2. JSP 호출하기
 		
@@ -29,8 +29,26 @@ public class Logout extends HttpServlet {
 		
 		//2.
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/member/logout.jsp");
-
 		dispatcher.forward(req, resp);
-
 	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

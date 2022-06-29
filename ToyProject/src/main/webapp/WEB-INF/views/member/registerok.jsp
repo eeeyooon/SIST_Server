@@ -13,32 +13,38 @@
 </style>
 </head>
 <body>
-	
+
 	<main>
 		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
 		<section>
 			
 		</section>
-	
 	</main>
-
+	
 	<script>
 		
 		<c:if test="${result == 1}">
-		location.href='/toy/member/login.do';
+		location.href = '/toy/member/login.do';
 		</c:if>
 		
 		<c:if test="${result == 0}">
 		alert('failed');
 		history.back();
 		</c:if>
-		
-		
 	
 	</script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
