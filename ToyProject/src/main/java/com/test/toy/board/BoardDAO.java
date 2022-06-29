@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.test.toy.DBUtil;
 
@@ -45,11 +46,22 @@ public class BoardDAO {
 
 	
 	//List 서블릿 > 목록 요청
-	public ArrayList<BoardDTO> list() {
+	public ArrayList<BoardDTO> list(HashMap<String, String> map) {
 			
 		try {
 			
-			String sql = "select * from vwBoard";
+			String where = "";
+			
+			if (map.get("isSearch").equals("y")) {
+				where = String.format("where %s like '%%%s%%'"
+										, map.get("column")
+										, map.get("word"));
+			}
+			
+			// '%' > 이거 escape시켜줘야 함. 그래서 기본 %검색어% 들어가야하고 검색어를 %s로 바꿔야하는데 양옆 $를 인식시키려고
+			// %% 두개로 만들었음.
+			
+			String sql = "select * from vwBoard " + where;
 			
 			stat = conn.createStatement();
 			
@@ -58,6 +70,7 @@ public class BoardDAO {
 			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 			
 			while (rs.next()) {
+				
 				BoardDTO dto = new BoardDTO();
 				
 				dto.setSeq(rs.getString("seq"));
@@ -88,9 +101,11 @@ public class BoardDAO {
 		
 		BoardDAO dao = new BoardDAO();
 		
-		ArrayList<BoardDTO> list = dao.list();
+		//HashMap 만들고 나서 에러생기니까 주석처리함
 		
-		System.out.println(list);
+		//ArrayList<BoardDTO> list = dao.list();
+		
+		//System.out.println(list);
 		
 		
 	}
@@ -184,16 +199,16 @@ public class BoardDAO {
 	
 	//DelOk 서블릿 > seq > 삭제요청
 	public int del(String seq) {
+	
+		try {
 		
-			try {
-			
-			String sql = "delete from tblBoard where seq = ?";
-			
-			pstat = conn.prepareStatement(sql);
-			
-			pstat.setString(1, seq);
-			
-			return pstat.executeUpdate();			
+		String sql = "delete from tblBoard where seq = ?";
+		
+		pstat = conn.prepareStatement(sql);
+		
+		pstat.setString(1, seq);
+		
+		return pstat.executeUpdate();			
 			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.del");
@@ -202,6 +217,70 @@ public class BoardDAO {
 		
 		
 		return 0;
+	}
+
+
+	public int addComment(CommentDTO dto) {
+		
+
+		try {
+			
+			String sql = "insert into tblComment (seq, content, id, regdate, pseq) values (seqComment.nextVal, ?, ?, default, ?";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, dto.getContent());
+			pstat.setString(2, dto.getId());
+			pstat.setString(3, dto.getPseq());
+			
+			return pstat.executeUpdate();			
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.addComment");
+			e.printStackTrace();
+		}
+	
+		return 0;
+	}
+
+	
+	//View 서블릿 > 부모 글 번호 > 댓글 목록 요청
+	public ArrayList<CommentDTO> listComment(String seq) {
+		
+		try {
+			
+			String sql = "select tblComment.*, (select name from tblUser where id = tblComment.id) as name from tblComment where pseq = ? order by seq desc";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<CommentDTO> clist = new ArrayList<CommentDTO>();
+			
+			while (rs.next()) {
+				CommentDTO dto = new CommentDTO();
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setContent(rs.getString("content"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				clist.add(dto);
+				
+			}
+			
+			return clist;
+			
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.listComment");
+			e.printStackTrace();
+			
+		}
+		
+		return null;
 	}
 
 }

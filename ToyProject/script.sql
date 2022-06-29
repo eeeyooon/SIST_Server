@@ -46,7 +46,32 @@ select * from tblBoard;
 
 create or replace view vwBoard
 as
-select seq, subject, id, (select name from tblUser where id = tblBoard.id) as name, regdate, readcount from tblBoard order by seq desc;
+select seq, subject, content, id, (select name from tblUser where id = tblBoard.id) as name, regdate, readcount from tblBoard order by seq desc;
+
+select * from vwBoard;
+
+
+
+
+--댓글 테이블
+create table tblComment (
+
+    seq number primary key,                                                         --댓글번호(PK)
+    content varchar2(1000) not null,                                          --내용
+    id varchar2(30) not null references tblUser(id),                --아이디(FK)
+    regdate date default sysdate not null,                                   --날짜
+    pseq number not null references tblBoard(seq)                  --부모글번호(FK)
+    
+);
+
+
+create sequence seqComment;
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@ package com.test.toy.board;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,18 +18,59 @@ public class List extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		//Get을 요청하면 이게 실행됨.
+		doTemp(req, resp);
+
+	}
+	
+	//검색할땐 GET을 쓸거라 사용 안해도됨.
+//	@Override
+//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		//Post를 요청하면 이게 실행됨.
+//		
+//		doTemp(req, resp);
+//
+//	}
+
+
+	private void doTemp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//List.java
 		//1. DB작업 > DAO 위임 > select
 		//2. 결과
 		//3. JSP 호출하기 + 결과 전달하기
 		
+		//그냥 list를 부른건지, 검색을 통해 부른건지 구분을 해야함. 
+		//그냥 목록: - list.do
+		//검색으로 목록 호출 : - list.do  + (column + word)
+		
+		req.setCharacterEncoding("UTF-8");
+		
+		
+		String column = req.getParameter("column");
+		String word = req.getParameter("word");
+		String isSearch = "n";
+		
+		if ((column == null || word == null)
+				|| (column == "" || word == "")) {
+			isSearch = "n";
+		} else {
+			isSearch = "y";
+		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		
+		map.put("column", column);
+		map.put("word", word);
+		map.put("isSearch", isSearch);
+		
+				
+		
 		HttpSession session = req.getSession();
 		
-		//1.+2.
+		//1. + 2.
 		BoardDAO dao = new BoardDAO();
 		
-		ArrayList<BoardDTO> list = dao.list();
+		ArrayList<BoardDTO> list = dao.list(map);
 		
 		
 		//2.5
@@ -69,10 +111,12 @@ public class List extends HttpServlet {
 		
 		req.setAttribute("list", list);
 		
+		req.setAttribute("map", map);
+		//검색에 관련된 모든게 들어있는 해쉬맵 > 이걸 JSP에 전송 (
+		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
 
 		dispatcher.forward(req, resp);
-
 	}
 }

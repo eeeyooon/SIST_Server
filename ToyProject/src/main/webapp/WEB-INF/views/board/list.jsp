@@ -20,6 +20,14 @@
 			
 			<h2>Board</h2>
 			
+			<!-- 검색중일때만 -->
+			<c:if test="${map.isSearch == 'y'}">
+			<div style="text-align: center; margin-bottom: 10px; color: cornflowerblue;">
+				'${map.word}'(으)로 검색한 결과 총 ${list.size()}개의 게시물이 발견되었습니다.
+			</div>
+			</c:if>
+			
+			
 			<table class="table table-bordered horizontal">
 				<tr>
 					<th>번호</th>
@@ -37,20 +45,67 @@
 				</c:if> --%>
 					<td>${dto.seq}</td>
 					<td>
-						<a href="/toy/board/view.do?seq=${dto.seq}">${dto.subject}</a>
+						<a href="/toy/board/view.do?seq=${dto.seq}&isSearch=${map.isSearch}&column=${map.column}&word=${map.word}">${dto.subject}</a>
 					</td>
 					<td>${dto.name}</td>
 					<td>${dto.regdate}</td>
 					<td>${dto.readcount}</td>
 				</tr>
-				</c:forEach>			
+				</c:forEach>
+				<c:if test="${list.size() == 0}">
+				<tr>
+					<td colspan="5">게시물이 없습니다.</td>
+				</tr>			
+				</c:if>
 			</table>
+			
+			<%-- <c:if test="${map.isSearch == 'y'}">
+				검색중
+			</c:if>
+			
+			<c:if test="${map.isSearch == 'n'}">
+				그냥 목록
+			</c:if>
+			 --%>
+			
+			
+			<div>
+				<form method="GET" action="/toy/board/list.do">
+				<!-- 검색하는 용도로 만든 form은 주로 get방식으로 -->
+				<table class="search">
+					<tr>
+						<td>
+							<select name="column" class="form-control">
+								<option value="subject">제목</option>
+								<option value="content">내용</option>
+								<option value="name">이름</option>
+							</select>
+						</td>
+						<td>
+							<input type="text" name="word" class="form-control" required>
+						</td>
+						<td>
+							<button class="btn btn-primary">
+								검색하기
+							</button>
+							
+							<c:if test="${map.isSearch == 'y'}">
+							<button class="btn btn-secondary"
+								onclick="location.href='/toy/board/list.do';">
+								검색중단하기
+							</button>
+							</c:if>
+						</td>
+					</tr>
+				</table>
+				</form>
+			</div>
 				
 				<c:if test="${not empty auth}">
 				<div class="btns">
 					<button class="btn btn-primary" onclick="location.href='/toy/board/add.do';">
 						<i class="fas fa-pen"></i>
-						글쓰기
+						쓰기
 					</button>
 				</div>
 				</c:if>
@@ -60,6 +115,12 @@
 	</main>
 	
 	<script>
+		
+		//검색중 > 상태유지
+		<c:if test="${map.isSearch == 'y'}">
+		$('select[name=column]').val('${map.column}');
+		$('input[name=word]').val('${map.word}');
+		</c:if>
 		
 	</script>
 

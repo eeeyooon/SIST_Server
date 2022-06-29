@@ -49,7 +49,7 @@
 			</table>
 			<div class="btns">
 				<input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="location.href='/toy/board/list.do';">
+					onclick="location.href='/toy/board/list.do?column=${column}&word=${word}';">
 					
 				<c:if test="${not empty auth}">	
 				
@@ -74,6 +74,51 @@
 				</button>
 				</c:if>
 			</div>
+			
+			
+			<!-- 댓글 -->
+			
+			<form method="POST" action="/toy/board/addcommentok.do">
+			<table class="tblAddComment">
+				<tr>
+					<td>
+						<textarea class="form-control" name="content" required></textarea>
+					</td>
+					<td>
+						<button class="btn btn-primary">
+						<i class="fas fa-pen"></i>
+						 쓰기
+						</button>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="pseq" value="${dto.seq}">
+			<!-- 부모 글번호도 넘겨줘야함 > 부모 글번호 == 현재 보고 있는 글번호 -->
+			
+			<!-- 댓글 쓸때마다 검색이 풀림. 그래서 값을 넘겨줘야 함. -->
+			<input type="hidden" name="isSearch" value="${isSearch}">
+			<input type="hidden" name="column" value="${column}">
+			<input type="hidden" name="word" value="${word}">
+			
+			</form>
+			
+			
+			
+			<table class="table table-bordered comment">
+				<c:forEach items="${clist}" var="cdto">
+				<tr>
+					<td>
+						<div>${cdto.content}</div>
+						<div>
+						<span>${cdto.regdate}</span>
+						<span>${cdto.name}(${cdto.id})</span>
+						</div>
+					</td>
+				</tr>
+				</c:forEach>
+
+			</table>			
+			
 			
 			
 		</section>

@@ -1,6 +1,7 @@
 package com.test.toy.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,8 +26,17 @@ public class View extends HttpServlet {
 		HttpSession session = req.getSession();
 		
 		
+		
 		//1.
 		String seq = req.getParameter("seq");
+		
+		
+		//검색 정보
+		String isSearch = req.getParameter("isSearch");
+		String column = req.getParameter("column");
+		String word = req.getParameter("word");
+		
+		
 		
 		//2. + 3.
 		BoardDAO dao = new BoardDAO();
@@ -61,9 +71,43 @@ public class View extends HttpServlet {
 		dto.setContent(dto.getContent().replace("\r\n", "<br>"));
 		
 		
+		//- 검색어 표시하기
+		if (isSearch.equals("y") && column.equals("content")) {
+			
+			//안녕하세요. 홍길동입니다.
+			//안녕하세요. <span style="background-color: yellow; color: red;">홍길동</span>입니다.
+			
+			dto.setContent(dto.getContent().replace(word, "<span style=\"background-color: yellow; color: red;\">" + word + "</span>"));
+			
+			
+			
+		}
+		
+		
+		
+		
+		//3.7 댓글 목록 가져오기
+		ArrayList<CommentDTO> clist = dao.listComment(seq);
+		
+		
+		
+		
+		
+		
+		
 		//4.
 		req.setAttribute("dto", dto);
 		
+		//view.jsp에도 Hashmap 내용을 줘야 함. (근데 해쉬맵은 안만들었으니까 하나씩 줘야함)
+		
+		req.setAttribute("isSearch", isSearch);
+		req.setAttribute("column", column);
+		req.setAttribute("word", word);
+		
+		
+		//list > view.java > view.jsp까지 옴.
+		
+		req.setAttribute("clist", clist);
 		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
