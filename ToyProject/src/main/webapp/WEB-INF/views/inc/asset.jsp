@@ -9,9 +9,9 @@
 <link rel="shortcut icon" href="/toy/asset/favicon.ico">
 
 
-<script src="/toy/assset/js/jquery-1.12.4.js"></script>
-<script src="/toy/assset/js/bootstrap.js"></script>
-<script src="/toy/assset/js/toy.js"></script>
+<script src="/toy/asset/js/jquery-1.12.4.js"></script>
+<script src="/toy/asset/js/bootstrap.js"></script>
+<script src="/toy/asset/js/toy.js"></script>
 
 <script src="https://kit.fontawesome.com/ee4798a312.js" crossorigin="anonymous"></script>
 

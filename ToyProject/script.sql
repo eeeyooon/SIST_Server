@@ -42,11 +42,17 @@ drop sequence seqBoard;
 
 create sequence seqBoard;
 
-select * from tblBoard;
+select * from tblBoard order by seq desc;
 
+
+--뷰 생성
 create or replace view vwBoard
 as
-select seq, subject, content, id, (select name from tblUser where id = tblBoard.id) as name, regdate, readcount from tblBoard order by seq desc;
+select seq, subject, content, id, (select name from tblUser where id = tblBoard.id) as name, regdate, readcount,
+    (select count(*) from tblComment where pseq = tblBoard.seq) as commentcount
+    from tblBoard order by seq desc;
+
+
 
 select * from vwBoard;
 
@@ -72,8 +78,10 @@ create sequence seqComment;
 select * from tblComment;
 
 
-
-
+--페이징
+select * from (select a.*, rownum as rnum from vwBoard a) where rnum between 1 and 10;
+select * from (select a.*, rownum as rnum from vwBoard a) where rnum between 11 and 20;
+select * from (select a.*, rownum as rnum from vwBoard a) where rnum between 21 and 30;
 
 
 

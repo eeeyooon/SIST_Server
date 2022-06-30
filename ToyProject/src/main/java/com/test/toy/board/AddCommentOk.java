@@ -70,7 +70,9 @@ public class AddCommentOk extends HttpServlet {
 		
 //		if (result == 1) {
 //			
-//			resp.sendRedirect(String.format("/toy/board/view.do?seq=%s&isSearch=%s&column=%s&word=%s", pseq, isSearch, column, word));
+//			resp.sendRedirect(String.format("/toy/board/view.do?seq=%s&isSearch=%s&column=%s&word=%s", pseq, isSearch, column, URLEncoder.encode(word, "UTF-8")));
+		
+		//URLEncoder 메소드 붙이면 이거 에러없이 가능
 //			
 //		} else {
 //			
@@ -90,7 +92,7 @@ public class AddCommentOk extends HttpServlet {
 //		}
 		
 //    //JSP를 안만들었으니까 RequestDispatcher 필요없음.  
-      //  ++ 문제가 생겨서 그냥 원래 JSP만들기했던것처럼 하기로
+      //  ++ 문제가 생겨서 그냥 원래 JSP만들기했던것처럼 하기로 >> 인코더 메소드 붙이면 해결됨.
       
 
 		

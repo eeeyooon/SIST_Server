@@ -24,7 +24,7 @@
 			
 			<div style="magin-bottom: 15px;">삭제하시겠습니까?</div>
 			
-			
+			<%-- "location.href='/toy/board/view.do?seq=${seq}';" --%>
 			<div class="btns">
 				<input type="button" value="돌아가기" class="btn btn-secondary"
 					onclick="location.href='/toy/board/view.do?seq=${seq}';">

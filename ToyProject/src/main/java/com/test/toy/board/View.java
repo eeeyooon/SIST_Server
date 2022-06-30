@@ -70,9 +70,12 @@ public class View extends HttpServlet {
 		// >> 얘가 비활성화보다 이후에 일어나야함. (안그러면 <br>태그가 적용이 안됨.)
 		dto.setContent(dto.getContent().replace("\r\n", "<br>"));
 		
+		//isSearch != null && column != null && 
+		//이걸 밑에 if문에 추가하거나 jsp에서 돌아가기 링크를 history.back()으로 수정하면
+		//돌아가기를 눌렀을때 에러 x
 		
 		//- 검색어 표시하기
-		if (isSearch.equals("y") && column.equals("content")) {
+		if (isSearch != null && column != null && isSearch.equals("y") && column.equals("content")) {
 			
 			//안녕하세요. 홍길동입니다.
 			//안녕하세요. <span style="background-color:yellow;color:red;">홍길동</span>입니다.
@@ -86,6 +89,11 @@ public class View extends HttpServlet {
 		
 		//3.7 댓글 목록 가져오기
 		ArrayList<CommentDTO> clist = dao.listComment(seq);
+		
+		//가공 작업 - 엔터 포함 + 나중에 댓글 수정 권한 확인, 태그 적용 못하게 하기 *****
+		for (CommentDTO cdto : clist) {
+			cdto.setContent(cdto.getContent().replace("\r\n", "<br>"));
+		}
 		
 		
 		

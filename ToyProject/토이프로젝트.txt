@@ -128,10 +128,41 @@ DB 설계
 					 > "CommentDTO.java"
 					 ++++ 근데 딱 우연히 얘한테 문제가 생겨서 jsp 만들기로 (다른 ok는 돼 하필 여기만 안돼)
 					 
-								     
-페이징 > 
+댓글 삭제
+- com.test.toy.board > "DelCommentOk.java"
 
-답변쓰기    
+
+댓글 수정
+- com.test.toy.board > "EditCommentOk.java"
+
+
+								     
+페이징
+- 가상으로 일정 단위의 게시물을 가져오는 기법 > SQL 사용
+
+- 더미 데이터 만들기
+
+
+
+답변쓰기(계층형 게시판, 답변 게시판)    
+- 테이블 수정 > thread, depth 컬럼 추가
+- thread, depth 컬럼의 규칙!!
+
+
+1. 새글 쓰기
+	- /toy/board/add.do
+	a. 현존하는 모든 게시물 중에서 가장 큰 thread 값을 찾아서, 그 값에 +1000을 한 값을 새글의 thread값으로 사용한다.
+	b. 새글의 depth는 항상 0을 넣는다.
+	
+	
+2. 답변글 쓰기
+	- /toy/board/add.do?reply=1
+	a. 현존하는 모든 게시물의 thread값을 대상으로 현재 작성 중인 답변글의 부모글 thread값보다 작고, 이전 새글을 thread값보다 큰 thread를 모두 찾아서 -1을 한다.
+	b. 현재 답변글의 thread값은 부모글의 thread-1을 넣는다.
+	c. 현재 답변글의 depth값은 부모글의 depth+1을 넣는다.
+	
+	
+	
 
 
 파일업로드

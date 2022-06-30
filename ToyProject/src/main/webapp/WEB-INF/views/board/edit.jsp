@@ -34,9 +34,27 @@
 				</tr>
 			</table>
 			
+			<!-- 
+					location.href > 서버에 항상 페이지를 요청
+					history.back() > 서버와 통신없이 클라이언트가 이전에 보고 있는 페이지를 그대로 복구해서 이동
+					
+					1. location.href
+					<input type="button" value="돌아가기" class="btn btn-secondary"
+					onclick="location.href='/toy/board/view.do?seq=${dto.seq}';"> 
+					
+					2. history.back()
+					<input type="button" value="돌아가기" class="btn btn-secondary"
+					onclick="history.back();"> 
+					
+					-> 이런 상황에서는 수정하기를 들어갔다가 돌아온다고 뷰가 달라질 가능성이 낮아서 history.back()써도 됨.
+						매개 변수 연습하라고 href쓴 것
+					
+					-->
+			
+		
 			<div class="btns">
 				<input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="location.href='/toy/board/view.do?seq=${dto.seq}';">
+					onclick="history.back();">
 				<button class="btn btn-primary">
 					<i class="fas fa-pen"></i>
 					수정하기

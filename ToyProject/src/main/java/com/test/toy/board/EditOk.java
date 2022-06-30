@@ -52,11 +52,12 @@ public class EditOk extends HttpServlet {
 		if (session.getAttribute("auth") == null) {
 			//세션을 뒤졌을때 인증티켓이 없으면
 			temp = 1; //익명 사용자
-		} else if (session.getAttribute("auth") != null) {
+		} else if (session.getAttribute("auth") != null) { 
 			//인증티켓이 있으면 실명사용자
+			//temp = 1; //실명 사용자
 			
 			if (session.getAttribute("auth").equals(dao.get(seq).getId())) {
-				temp = 2; //글쓴 본인(**)
+				temp = 2; //글쓴 본인(***)
 			} else {
 				
 				if (session.getAttribute("auth").toString().equals("admin")) {
@@ -64,16 +65,18 @@ public class EditOk extends HttpServlet {
 				} else {
 					temp = 4; //타인
 				}
+				
 			}
+			
 		}
+				
+		
+		int result = 0;
 		
 		//관리자(3)와 글쓴 본인(2)에겐 수정 권한 줌.
 		//타인(4)과 익명 사용자(1)에겐 수정 권한 x
 				
 		
-		
-		
-		int result = 0;
 		
 		//글쓴 본인과 관리자에게만 edit할 권한 줌
 		if (temp == 2 || temp == 3) {

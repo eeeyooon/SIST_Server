@@ -35,10 +35,14 @@
 			
 			<div class="btns">
 				<input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="location.href='/toy/board/list.do';">
-				<input type="submit" value="글쓰기" class="btn btn-primary">
-				
+					onclick="location.href='/toy/board/index.do';">
+				<button class="btn btn-primary">
+					<i class="fas fa-pen"></i>
+					쓰기
+				</button>
 			</div>
+			
+			<input type="hidden" name="reply" value="${reply}">
 			
 			</form>
 			

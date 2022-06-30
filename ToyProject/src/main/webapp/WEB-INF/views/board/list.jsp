@@ -46,6 +46,13 @@
 					<td>${dto.seq}</td>
 					<td>
 						<a href="/toy/board/view.do?seq=${dto.seq}&isSearch=${map.isSearch}&column=${map.column}&word=${map.word}">${dto.subject}</a>
+					
+						<c:if test="${dto.commentcount > 0}">
+						<span>(${dto.commentcount})</span>
+						</c:if>
+						
+						<%-- <span class="badge badge-primary">${dto.commentcount}</span> --%>
+						
 					</td>
 					<td>${dto.name}</td>
 					<td>${dto.regdate}</td>
@@ -58,6 +65,27 @@
 				</tr>			
 				</c:if>
 			</table>
+			
+			
+			
+			<div style="text-align: center;">
+				<%-- <select id="pagebar">
+					
+					<c:forEach var="i" begin="1" end="${totalPage}">
+					<option value="${i}">${i}페이지</option>
+					</c:forEach>
+				</select> --%>
+				
+				<!-- 데이터 잘 넘어왔나 찍어보기 -->
+				<%-- ${totalCount}
+				${totalPage} --%>
+				
+				
+				${pagebar}
+				
+			</div>
+			
+			
 			
 			<%-- <c:if test="${map.isSearch == 'y'}">
 				검색중
@@ -121,6 +149,15 @@
 		$('select[name=column]').val('${map.column}');
 		$('input[name=word]').val('${map.word}');
 		</c:if>
+		
+		$("#pagebar").change(function() {
+			
+			location.href = '/toy/board/list.do?page=' + $(this).val() + "&column=${map.column}&word=${map.word}";
+			
+		});
+		
+		$('#pagebar').val(${nowPage});
+		
 		
 	</script>
 
