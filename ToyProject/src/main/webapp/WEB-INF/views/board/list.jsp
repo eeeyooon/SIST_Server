@@ -20,13 +20,11 @@
 			
 			<h2>Board</h2>
 			
-			<!-- 검색중일때만 -->
 			<c:if test="${map.isSearch == 'y'}">
-			<div style="text-align: center; margin-bottom: 10px; color: cornflowerblue;">
-				'${map.word}'(으)로 검색한 결과 총 ${list.size()}개의 게시물이 발견되었습니다.
+			<div style="text-align:center; margin-bottom: 10px; color: cornflowerblue;">
+				'${map.word}'으로 검색한 결과 총 ${list.size()}개의 게시물이 발견되었습니다.
 			</div>
 			</c:if>
-			
 			
 			<table class="table table-bordered horizontal">
 				<tr>
@@ -37,21 +35,33 @@
 					<th>읽음</th>
 				</tr>
 				<c:forEach items="${list}" var="dto">
-				<%-- <c:if test="${dto.readcount < 10}"> --%>
 				<tr>
-				<%-- </c:if>
-				<c:if test="${dto.readcount >= 10}">
-				<tr style="background-color: gold;">
-				</c:if> --%>
 					<td>${dto.seq}</td>
 					<td>
-						<a href="/toy/board/view.do?seq=${dto.seq}&isSearch=${map.isSearch}&column=${map.column}&word=${map.word}">${dto.subject}</a>
 					
+						<c:if test="${dto.depth > 0}">
+						<i class="fa-solid fa-circle-right"
+								style="margin-left: ${dto.depth * 20}px;"></i>
+						</c:if>
+						
+						
+						
+						<a href="/toy/board/view.do?seq=${dto.seq}&isSearch=${map.isSearch}&column=${map.column}&word=${map.word}">${dto.subject}</a>
+						
+						
+						<c:if test="${not empty dto.filename}">
+						<i class="fa-solid fa-floppy-disk"></i>
+						</c:if>
+						
 						<c:if test="${dto.commentcount > 0}">
 						<span>(${dto.commentcount})</span>
 						</c:if>
 						
-						<%-- <span class="badge badge-primary">${dto.commentcount}</span> --%>
+						
+						
+						<c:if test="${(dto.isnew * 24) < 3 }">
+						<span style="color: tomato;">new</span>
+						</c:if>
 						
 					</td>
 					<td>${dto.name}</td>
@@ -62,44 +72,25 @@
 				<c:if test="${list.size() == 0}">
 				<tr>
 					<td colspan="5">게시물이 없습니다.</td>
-				</tr>			
+				</tr>
 				</c:if>
 			</table>
 			
-			
-			
+
 			<div style="text-align: center;">
-				<%-- <select id="pagebar">
-					
+				<%-- 
+				<select id="pagebar">
 					<c:forEach var="i" begin="1" end="${totalPage}">
 					<option value="${i}">${i}페이지</option>
 					</c:forEach>
-				</select> --%>
-				
-				<!-- 데이터 잘 넘어왔나 찍어보기 -->
-				<%-- ${totalCount}
-				${totalPage} --%>
-				
-				
+				</select> 
+				--%>
 				${pagebar}
-				
 			</div>
-			
-			
-			
-			<%-- <c:if test="${map.isSearch == 'y'}">
-				검색중
-			</c:if>
-			
-			<c:if test="${map.isSearch == 'n'}">
-				그냥 목록
-			</c:if>
-			 --%>
-			
-			
+
+					
 			<div>
 				<form method="GET" action="/toy/board/list.do">
-				<!-- 검색하는 용도로 만든 form은 주로 get방식으로 -->
 				<table class="search">
 					<tr>
 						<td>
@@ -118,9 +109,9 @@
 							</button>
 							
 							<c:if test="${map.isSearch == 'y'}">
-							<button class="btn btn-secondary"
+							<button class="btn btn-secondary" type="button"
 								onclick="location.href='/toy/board/list.do';">
-								검색중단하기
+								중단하기
 							</button>
 							</c:if>
 						</td>
@@ -128,16 +119,19 @@
 				</table>
 				</form>
 			</div>
-				
-				<c:if test="${not empty auth}">
-				<div class="btns">
-					<button class="btn btn-primary" onclick="location.href='/toy/board/add.do';">
-						<i class="fas fa-pen"></i>
-						쓰기
-					</button>
-				</div>
-				</c:if>
-		
+			
+			
+			<c:if test="${not empty auth}">
+			<div class="btns">
+				<button type="button" class="btn btn-primary"
+					onclick="location.href='/toy/board/add.do';">
+					<i class="fas fa-pen"></i>
+					쓰기
+				</button>
+			</div>
+			</c:if>
+			
+			
 			
 		</section>
 	</main>
@@ -149,6 +143,7 @@
 		$('select[name=column]').val('${map.column}');
 		$('input[name=word]').val('${map.word}');
 		</c:if>
+	
 		
 		$("#pagebar").change(function() {
 			
@@ -163,6 +158,12 @@
 
 </body>
 </html>
+
+
+
+
+
+
 
 
 

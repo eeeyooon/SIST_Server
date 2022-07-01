@@ -1,8 +1,11 @@
 package com.test.toy.board;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -85,6 +88,41 @@ public class View extends HttpServlet {
 		}
 		
 		
+		//07.01 
+		//- 첨부 파일이 이미지일 때 내용과 함께 화면에 출력하기 // + "\r\n"
+		
+		if (dto.getFilename() != null
+				&& (dto.getFilename().toLowerCase().endsWith(".jpg")
+				|| dto.getFilename().toLowerCase().endsWith(".png")
+				|| dto.getFilename().toLowerCase().endsWith(".gif")
+				|| dto.getFilename().toLowerCase().endsWith(".jpeg"))) {
+			
+			//이미지 정보 획득 (이미지 크기, 이미지 저장 시간, 화소 등등)
+			BufferedImage img =  ImageIO.read(new File(req.getRealPath("files") + "\\" + dto.getFilename()));
+			
+			//보통 gps 정보가져올때 사용
+//			System.out.println(img.getWidth());
+//			System.out.println(img.getHeight());
+			
+			String temp = "";
+			
+			if (img.getWidth() > 630) {
+				temp = "style='width: 630px;";
+			}
+			
+			
+			
+			dto.setContent(dto.getContent()
+					
+				//2번 방법으로 하니까 큰 사진에선 돌아가기 메뉴 안보이고, 게시글 정보 안보여서 1번 방법으로 진행함.
+					//1. 이미지 크기 조절방법(깜빡임현상 없앨때) > view.jsp 스크립트에서 show사용
+					+ String.format("<div style='margin-top: 15px;'><img src='/toy/files/%s' id='imgAttach' style='display:none;'></div>"
+														, dto.getFilename()));
+					
+					//2. 이미지 크기조절방법(깜빡임현상 없앨때) > 서블릿에서 모두 해결
+					//+ String.format("<div style='margin-top: 15px;'><img src='/toy/files/%s' id='imgAttach' %s></div>"
+							//, dto.getFilename(), temp));
+		}
 		
 		
 		//3.7 댓글 목록 가져오기

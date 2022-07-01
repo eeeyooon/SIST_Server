@@ -20,7 +20,7 @@
 			
 			<h2>Board</h2>
 			
-			<form method="POST" action="/toy/board/editok.do">
+			<form method="POST" action="/toy/board/editok.do" enctype="multipart/form-data">
 			
 			<table class="table table-bordered vertical">
 				<tr>
@@ -32,6 +32,24 @@
 					<th>내용</th>
 					<td><textarea name="content" class="form-control" required>${dto.content}</textarea></td>
 				</tr>
+				<tr>
+					<th>파일</th>
+					<td>
+						<input type="file" name="attach" class="form-control">
+						
+						<div style="margin: 7px 12px 3px 7px;">
+						<c:if test="${not empty dto.orgfilename}">
+						파일명: <span id="filename">${dto.orgfilename}</span><span onclick="delfile();" style="cursor: pointer;">&times;</span> 
+						</c:if>
+						
+						<c:if test="${empty dto.orgfilename}">
+						파일명: 파일 없음
+						</c:if>
+						</div>
+						
+					</td>
+				</tr>
+				
 			</table>
 			
 			<!-- 
@@ -67,7 +85,16 @@
 			<!-- 수정하기로 넘어갈때 수정할 글 번호도 넘어가야함. -->
 			<input type="hidden" name="seq" value="${dto.seq}">
 			
+			
+			<!-- 07/01 Edit.java > 이거 추가하고 editok.java -->
+			<input type="hidden" name="isSearch" value="${isSearch}">
+			<input type="hidden" name="column" value="${column}">
+			<input type="hidden" name="word" value="${word}">
+			
 			<!-- 히든태그는 항상 소스보기로 잘 넘어갔는지 확인하기 -->
+			
+			<!-- 업로드한 파일 삭제하기 -->
+			<input type="hidden" name="delfile" value="n">
 			
 			</form>
 			
@@ -77,6 +104,23 @@
 	
 	<script>
 		
+		/* x 아이콘을 누르면 파일 이름에 취소선 그어짐. > 삭제 표시
+		한번 더 누르면 취소선 사라짐.*/
+		function delfile() {
+			if($('#filename').css('text-decoration').indexOf('line-through') == -1) {
+				//line-through가 발견되지 않으면
+				$('#filename').css('text-decoration', 'line-through');
+				$('input[name=delfile]').val('y');
+					
+					
+				
+			} else {
+				//한번 더 클릭하면 취소선 없애기
+				$('#filename').css('text-decoration', 'none');
+				$('input[name=delfile]').val('n');
+			}
+		}
+	
 	</script>
 
 </body>

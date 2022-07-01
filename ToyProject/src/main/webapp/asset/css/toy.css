@@ -121,6 +121,10 @@ main > section > h2 {
 	color: cornflowerblue;
 }
 
+.table.horizontal td:nth-child(2) {
+	text-align: left;
+}
+
  
 .table.horizontal th:nth-child(1) { width: 50px; }
 .table.horizontal th:nth-child(2) { width: auto; }
@@ -129,7 +133,7 @@ main > section > h2 {
 .table.horizontal th:nth-child(5) { width: 50px; }
 
 .table.horizontal th:nth-child(2) {
-	text-align: left;
+	text-align: center;
 } 
 
 a {

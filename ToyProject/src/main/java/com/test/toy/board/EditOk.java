@@ -1,5 +1,6 @@
 package com.test.toy.board;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 @WebServlet("/board/editok.do")
 public class EditOk extends HttpServlet {
@@ -31,10 +35,48 @@ public class EditOk extends HttpServlet {
 		//1.
 		req.setCharacterEncoding("UTF-8");
 		
+		
+		//1.5 파일 업로드 수정
+		//새로운 파일을 선택했을 때만! 
+		//파일 추가 > (enctype추가하면서 ) >> req.getParameter 이제 동작 안함 ******
+		
+		String path = req.getRealPath("/files");
+		int size = 1024 * 1024 * 100; //100MB
+		
+		
+		//MultipartRequest로 다 고쳐줘야함.
+		MultipartRequest multi = null;
+		
+		try {
+			
+			multi = new MultipartRequest(
+											req,
+											path,
+											size,
+											"UTF-8",
+											new DefaultFileRenamePolicy()
+										);
+					
+					
+			
+		} catch (Exception e) {
+			System.out.println("AddOk.doPost");
+			e.printStackTrace();
+
+		}
+		
+		
+		
 		//2.
-		String subject = req.getParameter("subject");
-		String content = req.getParameter("content");
-		String seq = req.getParameter("seq");
+		String subject = multi.getParameter("subject");
+		String content = multi.getParameter("content");
+		String seq = multi.getParameter("seq");
+		
+		//07/01 eidt.jsp에서 가져오고 multi로 바꿔주기 (밑에 4번도 추가함)
+		String isSearch = multi.getParameter("isSearch");
+		String column = multi.getParameter("column");
+		String word = multi.getParameter("word");
+		
 		
 		//3.
 		BoardDTO dto = new BoardDTO();
@@ -44,6 +86,64 @@ public class EditOk extends HttpServlet {
 		dto.setSeq(seq);
 		
 		BoardDAO dao = new BoardDAO();
+		
+		
+		//07.01
+		//3.5 첨부파일 처리
+		//3.5.1 기존 파일 O > 새로운 파일로 교체하는 경우
+			
+			// 1) 기존 파일이 있는지 확인
+			// 2) 기존 파일을 찾아서 지우기
+		
+		//새 파일
+		String filename = multi.getFilesystemName("attach");
+		String orgfilename = multi.getOriginalFileName("attach");
+		
+		//System.out.println("filename: " + (filename == null));
+		
+		//기존 파일
+		BoardDTO tempdto = dao.get(seq);
+		//DB 갔다오기 (기존 파일있는지와 기존파일의 이름 확인하러)
+		
+		if (tempdto.getFilename() != null && filename != null) {
+			//기존파일이 있는지 , 새파일이 있는지
+			
+			//1. 기존 파일 삭제하고 새 파일로 교체하기
+			//기존 파일 삭제
+			File file = new File(path + "\\" + tempdto.getFilename());
+			file.delete();
+			
+			//새파일로 교체
+			dto.setFilename(filename);
+			dto.setOrgfilename(orgfilename);
+			
+			//오브젝트로 만들었는데 매개변수를 추가안하면 null이 됨 ?
+		
+		} else if (filename == null && multi.getParameter("delfile").equals("y")) {
+				
+			//2. 기존 파일만 삭제하고, 새로운 파일을 추가 안했을 경우
+			File file = new File(path + "\\" + tempdto.getFilename());
+			file.delete();
+				
+			
+			//3번 조건이 더 넓으니까 if문 순서 밑으로
+		} else if (filename == null) {
+			//3. 기존 파일의 유무와 상관없이 새로운 파일을 추가 안했을 경우
+			//dto.setFilename(예전 파일명);
+			//dto.setOrgfilename(예전 파일명);
+			
+			//예전 파일명 세팅해주기
+			dto.setFilename(tempdto.getFilename());
+			dto.setOrgfilename(tempdto.getOrgfilename());
+			
+		} else if (tempdto.getFilename() == null && filename != null) {
+			//3. 기존 파일이 없는데 새로운 파일을 추가하는 경우
+			dto.setFilename(filename);
+			dto.setOrgfilename(orgfilename);
+			
+			
+		} 
+		
 		
 		
 		//url로 접근해도 수정,삭제 못하게 (본인글 아니면)
@@ -89,6 +189,11 @@ public class EditOk extends HttpServlet {
 		req.setAttribute("seq", seq);
 		//editok.jsp에서 돌아가기를 누르면 다시 view.do로 가야하는데, 이때 seq가 필요하니까 seq넘겨줌
 		
+		
+		//07/01 추가
+		req.setAttribute("isSearch", isSearch);
+		req.setAttribute("column", column);
+		req.setAttribute("word", word);
 		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/editok.jsp");

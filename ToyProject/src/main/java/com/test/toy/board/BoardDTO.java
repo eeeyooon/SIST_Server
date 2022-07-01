@@ -1,5 +1,7 @@
 package com.test.toy.board; //06.28
 
+import java.util.ArrayList;
+
 import lombok.Data;
 
 @Data
@@ -20,6 +22,19 @@ public class BoardDTO {
 	//답변쓰기
 	private int thread;
 	private int depth;
+	
+	
+	private double isnew;
+	
+	
+	//파일 업로드
+	private String filename;
+	private String orgfilename;
+	
+	
+	//해시태그들을 넣을 예정
+	private ArrayList<String> taglist;
+	
 	
 	
 }

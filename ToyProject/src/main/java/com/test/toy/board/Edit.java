@@ -23,8 +23,11 @@ public class Edit extends HttpServlet {
 		
 		
 		//1.
-			
 		String seq = req.getParameter("seq");
+		
+		String isSearch = req.getParameter("isSearch");
+		String column = req.getParameter("column");
+		String word = req.getParameter("word");
 		
 		
 		//2. + 3.
@@ -34,6 +37,11 @@ public class Edit extends HttpServlet {
 		
 		//4.
 		req.setAttribute("dto", dto);
+		
+		//07/01추가
+		req.setAttribute("isSearch", isSearch);
+		req.setAttribute("column", column);
+		req.setAttribute("word", word);
 		
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/edit.jsp");

@@ -1,5 +1,6 @@
 package com.test.toy.board;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -66,6 +67,14 @@ public class DelOk extends HttpServlet {
 			//댓글 삭제
 			dao.delCommentAll(seq);
 			
+			//원글 첨부파일 삭제
+			BoardDTO dto = dao.get(seq);
+			
+			if (dto.getFilename() != null) {
+				String path = req.getRealPath("files") + "\\" + dto.getFilename();
+				File file = new File(path);
+				file.delete();
+			}
 			
 			//원글 삭제
 			result = dao.del(seq);

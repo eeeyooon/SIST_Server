@@ -24,8 +24,9 @@
 	<script>
 		
 		<c:if test="${result == 1}">
-		location.href = '/toy/board/view.do?seq=${seq}';
+		location.href = '/toy/board/view.do?seq=${seq}&isSerach=${isSearch}&column=${column}&word=${word}';
 		/* seq로 넘겼으니까 그대로 seq */
+		/* 07/01 href에 추가 */
 		</c:if>
 		
 		<c:if test="${result == 0}">

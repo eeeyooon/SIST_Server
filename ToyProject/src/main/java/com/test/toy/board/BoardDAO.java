@@ -26,7 +26,7 @@ public class BoardDAO {
 		
 		try {
 			
-			String sql = "insert into tblBoard (seq, subject, content, id, regdate, readcount, thread, depth) values (seqBoard.nextVal, ?, ?, ?, default, default, ?, ?)";
+			String sql = "insert into tblBoard (seq, subject, content, id, regdate, readcount, thread, depth, filename, orgfilename) values (seqBoard.nextVal, ?, ?, ?, default, default, ?, ?, ?, ?)";
 			
 			pstat = conn.prepareStatement(sql);
 			
@@ -34,9 +34,11 @@ public class BoardDAO {
 			pstat.setString(2, dto.getContent());
 			pstat.setString(3, dto.getId());
 			
-			//답변쓰기
 			pstat.setInt(4, dto.getThread());
 			pstat.setInt(5, dto.getDepth());
+			
+			pstat.setString(6, dto.getFilename());
+			pstat.setString(7, dto.getOrgfilename());
 			
 			return pstat.executeUpdate();			
 			
@@ -48,31 +50,39 @@ public class BoardDAO {
 		return 0;
 	}
 
-	
-	//List 서블릿 > 목록 요청
+	//List 서블릿 > 목록 주세요
 	public ArrayList<BoardDTO> list(HashMap<String, String> map) {
-			
+		
 		try {
+			
+			
 			
 			String where = "";
 			
-			if (map.get("isSearch").equals("y")) {
-				where = String.format("where %s like '%%%s%%'"
-										, map.get("column")
-										, map.get("word"));
-			}
-			
-			// '%' > 이거 escape시켜줘야 함. 그래서 기본 %검색어% 들어가야하고 검색어를 %s로 바꿔야하는데 양옆 $를 인식시키려고
-			// %% 두개로 만들었음.
-			
-			
-			
-			String sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s", where, map.get("begin"), map.get("end"));
-		
+			String sql = "";
 
 			
+			//해시태그검색이 아닐때
+			if (map.get("tag") == null) {
 			
-			/*String sql = "select * from vwBoard " + where;*/
+				if (map.get("isSearch").equals("y")) {
+					where = String.format("where %s like '%%%s%%'"
+											, map.get("column")
+											, map.get("word"));
+				}
+				
+				
+				sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s ", where, map.get("begin"), map.get("end"));
+				
+			} else {
+			
+				//해시태그검색일때 쿼리
+				
+				sql = "select b.* from vwBoard b inner join tblTagging t on b.seq = t.bseq inner join tblHashTag h on h.seq = t.hseq where h.tag = '" + map.get("tag") + "'";
+				
+			}
+			
+			
 			
 			stat = conn.createStatement();
 			
@@ -92,37 +102,39 @@ public class BoardDAO {
 				dto.setReadcount(rs.getString("readcount"));
 				dto.setCommentcount(rs.getString("commentcount"));
 				
+				dto.setDepth(rs.getInt("depth"));
+				
+				dto.setIsnew(rs.getDouble("isnew"));
+				
+				dto.setFilename(rs.getString("filename"));
+				
 				list.add(dto);
 				
 			}
 			
-			return list;
+			return list;			
 			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.list");
 			e.printStackTrace();
-
 		}
 		
 		return null;
 	}
 	
-	
-	//테스트용으로 main 메소드 만들기
 	public static void main(String[] args) {
 		
 		BoardDAO dao = new BoardDAO();
-		
-		//HashMap 만들고 나서 에러생기니까 주석처리함
 		
 		//ArrayList<BoardDTO> list = dao.list();
 		
 		//System.out.println(list);
 		
-		
 	}
 
-	//View 서블릿 > seq > DTO 요청
+
+	//View 서블릿 > seq > DTO 주세요.
+	//Hash하면서 수정(추가)
 	public BoardDTO get(String seq) {
 		
 		try {
@@ -146,23 +158,60 @@ public class BoardDAO {
 				dto.setRegdate(rs.getString("regdate"));
 				dto.setReadcount(rs.getString("readcount"));
 				
+				dto.setThread(rs.getInt("thread"));
+				dto.setDepth(rs.getInt("depth"));
+				
+				dto.setFilename(rs.getString("filename"));
+				dto.setOrgfilename(rs.getString("orgfilename"));
+				
 			}
+			
+			
+			//해당글의 해시태그들 가져오기
+			//해시 테이블은 따로 있기때문에 select를 또 날려줘야 함.
+			
+			sql = "select tag  from tblHashTag h inner join tblTagging t on h.seq = t.hseq where bseq = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			
+			rs = pstat.executeQuery();
+			
+			
+			ArrayList<String> taglist = new ArrayList<String>();
+			  
+			 while (rs.next()) { taglist.add(rs.getString("tag")); }
+			  
+			  dto.setTaglist(taglist);
+			
+			
+		
+			/*
+			  //DTO에선 list안만들고 껍데기만 만들었으니까 여기서 생성
+				dto.setTaglist(new ArrayList<String>());
+			
+				while (rs.next()) {
+					dto.getTaglist().add(rs.getString("tag"));
+				}
+			  
+			  -> 위 코드랑 같은 코드임.
+		
+			 */
 			
 			return dto;
 			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.get");
 			e.printStackTrace();
-
 		}
 		
 		return null;
 	}
 
-	
-	//View 서블릿 > seq > 조회수 증가시켜달라고 요청
+
+	//View 서블릿 > seq > 조회수 증가시켜주세요
 	public void updateReadcount(String seq) {
-		
+
 		try {
 			
 			String sql = "update tblBoard set readcount = readcount + 1 where seq = ?";
@@ -179,35 +228,37 @@ public class BoardDAO {
 		
 	}
 
-	
-	//EditOk 서블릿 > dto > 수정 요청 
+
+	//EditOk 서블릿 > dto > 수정해주세요~
 	public int edit(BoardDTO dto) {
 		
 		try {
 			
-			String sql = "update tblBoard set subject = ?, content = ? where seq = ?";
+			String sql = "update tblBoard set subject = ?, content = ?, filename = ?, orgfilename = ? where seq = ?";
 			
 			pstat = conn.prepareStatement(sql);
 			
 			pstat.setString(1, dto.getSubject());
 			pstat.setString(2, dto.getContent());
-			pstat.setString(3, dto.getSeq());
+			
+			pstat.setString(3, dto.getFilename());
+			pstat.setString(4, dto.getOrgfilename());
+			pstat.setString(5, dto.getSeq());
 			
 			return pstat.executeUpdate();			
 			
 		} catch (Exception e) {
-			System.out.println("BoardDAO.add");
+			System.out.println("BoardDAO.edit");
 			e.printStackTrace();
 		}
 		
 		return 0;
-		
 	}
 
-	
-	//DelOk 서블릿 > seq > 삭제요청
+
+	//DelOk 서블릿 > seq > 삭제해주세요~
 	public int del(String seq) {
-	
+		
 		try {
 			
 			String sql = "delete from tblBoard where seq = ?";
@@ -223,9 +274,9 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		
-		
 		return 0;
 	}
+
 
 	
 	//AddCommentOk 서블릿 > dto > 댓글 추가해주세요~
@@ -234,6 +285,9 @@ public class BoardDAO {
 		try {
 			
 			String sql = "insert into tblComment (seq, content, id, regdate, pseq) values (seqComment.nextVal, ?, ?, default, ?)";
+			
+			
+			System.out.println(dto.getPseq());
 			
 			pstat = conn.prepareStatement(sql);
 			
@@ -251,8 +305,8 @@ public class BoardDAO {
 		return 0;
 	}
 
-	
-	//View 서블릿 > 부모 글 번호 > 댓글 목록 요청
+
+	//View 서블릿 > 부모 글번호 > 댓글 목록 주세요~
 	public ArrayList<CommentDTO> listComment(String seq) {
 		
 		try {
@@ -289,10 +343,9 @@ public class BoardDAO {
 		return null;
 	}
 
-	
-	//DelCommentOk 서블릿 > seq > 댓글 삭제 요청
+
+	//DelCommentOk 서블릿 > seq > 댓글 삭제해주세요~
 	public int delcomment(String seq) {
-		
 		
 		try {
 			
@@ -305,20 +358,18 @@ public class BoardDAO {
 			return pstat.executeUpdate();			
 			
 		} catch (Exception e) {
-			System.out.println("BoardDAO.addComment");
+			System.out.println("BoardDAO.delcomment");
 			e.printStackTrace();
 		}
-		
 		
 		
 		return 0;
 	}
 
 
-	//EditCommentOK 서블릿 > dto > 댓글 수정해주세요~
+	//EditCommentOk 서블릿 > dto > 댓글 수정해주세요~
 	public int editComment(CommentDTO dto) {
 		
-
 		try {
 			
 			String sql = "update tblComment set content = ? where seq = ?";
@@ -335,14 +386,12 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		
-		
 		return 0;
 	}
 
-	
-	//DelOk 서블릿 > 부모 글번호를 줄테니 달린 댓글들은 모두 삭제해줘
+
+	//DelOk 서블릿 > 부모글번호 > 달린 댓글들을 모두 삭제해주세요~
 	public void delCommentAll(String seq) {
-		
 		
 		try {
 			
@@ -352,7 +401,7 @@ public class BoardDAO {
 			
 			pstat.setString(1, seq);
 			
-			pstat.executeQuery();
+			pstat.executeUpdate();			
 			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.delCommentAll");
@@ -361,8 +410,8 @@ public class BoardDAO {
 		
 	}
 
-	
-	//List 서블릿 > 총 게시물 수 요청
+
+	//List 서블릿 > 총 게시물 수 주세요~
 	public int getTotalCount(HashMap<String, String> map) {
 		
 		try {
@@ -370,7 +419,7 @@ public class BoardDAO {
 			String where = "";
 			
 			if (map.get("isSearch").equals("y")) {
-				where = String.format("where %s like '%%%s%%'"
+				where = String.format(" where %s like '%%%s%%'"
 										, map.get("column")
 										, map.get("word"));
 			}
@@ -385,25 +434,22 @@ public class BoardDAO {
 				return rs.getInt("cnt");
 			}
 			
+			
 		} catch (Exception e) {
 			System.out.println("BoardDAO.getTotalCount");
 			e.printStackTrace();
-
 		}
 		
 		return 0;
 	}
 
-	
-	//AddOk 서블릿 > 가장 큰 thread 요청
-	//a. 현존하는 모든 게시물 중에서 가장 큰 thread 값을 찾아서, 그 값에 +1000을 한 값을 새글의 thread값으로 사용한다.
+
+	//AddOk 서블릿 > 가장 큰 thread 주세요~
 	public int getMaxThread() {
 		
 		try {
 			
 			String sql = "select nvl(max(thread), 0) as thread from tblBoard";
-			//현재 max(thread)는 null임 >> null의 모든 연산의 결과는 null임. >>> +1000을 해도 null임.(계산 x)
-			//nvl을 쓰면, null이면 뒤의 숫자를 주고 null이 아니면 앞의 숫자를 줌. > nvl(null value) 사용
 			
 			stat = conn.createStatement();
 			
@@ -416,13 +462,170 @@ public class BoardDAO {
 		} catch (Exception e) {
 			System.out.println("BoardDAO.getMaxThread");
 			e.printStackTrace();
-
 		}
 		
 		return 0;
 	}
 
+
+	//AddOk 서블릿 > thread 업데이트~
+	public void updateThread(HashMap<String, Integer> map) {
+		
+		try {
+			
+			String sql = "update tblBoard set thread = thread - 1 where thread > ? and thread < ?";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setInt(1, map.get("previousThread"));
+			pstat.setInt(2, map.get("parentThread"));
+			
+			pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.updateThread");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	//태그작업
+	//AddOk.java
+	
+	public String getSeq() {
+		
+		try {
+			
+			String sql = "select max(seq) as seq from tblBoard";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			if (rs.next()) {
+				return rs.getString("seq");
+			}
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.getSeq");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+	}
+
+
+	public void addHashTag(String tag) {
+		
+		try {
+			
+			String sql = "insert into tblHashTag (seq, tag) values (seqHashTag.nextVal, ?)";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, tag);
+			
+			pstat.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.addHashTag");
+			e.printStackTrace();
+
+		}
+		
+	}
+
+
+	
+	public String getHashTagSeq() {
+		try {
+			
+			String sql = "select max(seq) as seq from tblHashTag";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			if (rs.next()) {
+				return rs.getString("seq");
+			}
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.getHashTagSeq");
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+
+	public void addTagging(HashMap<String, String> map) {
+		
+		try {
+			
+			String sql = "insert into tblTagging (seq, bseq, hseq) values (seqTagging.nextVal, ?, ?)";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("hseq"));
+			
+			pstat.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.addHashTag");
+			e.printStackTrace();
+
+		}
+		
+	}
+
+
+	public ArrayList<String> taglist() {
+		
+		try {
+			
+			String sql = "select tag from tblHashTag order by tag asc";
+			
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<String> list = new ArrayList<String>();
+			
+			while (rs.next()) {
+				list.add(rs.getString("tag"));
+			}
+			
+			return list;
+			
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.taglist");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+		
+	}
+	
+	
+	
+
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

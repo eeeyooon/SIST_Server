@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title>Toy Project</title>
 <%@ include file="/WEB-INF/views/inc/asset.jsp" %>
+<link rel="stylesheet" href="/toy/asset/css/tagify.css" />
+<script src="/toy/asset/js/jQuery.tagify.min.js"></script>
 <style>
 
 </style>
@@ -46,42 +48,93 @@
 					<th>번호</th>
 					<td>${dto.seq}</td>
 				</tr>
+				<tr>
+					<th>파일</th>
+					<td>
+						<c:if test="${not empty dto.orgfilename}">
+						<a href="/toy/board/download.do?filename=${dto.filename}&orgfilename=${dto.orgfilename}">${dto.orgfilename}</a> 
+						</c:if>
+						
+						<c:if test="${empty dto.orgfilename}">
+						파일 없음
+						</c:if>
+						
+					</td>
+				</tr>
+				<tr>
+					<th>태그</th>
+					<td><input type="text" name="tags" readonly></td>
+				</tr>
+				<!-- readonly를 주면 삭제할 수 없이 딱 읽기만 가능하게 -->
+				<tr>
+					<th>좋아요/싫어요</th>
+					<td>
+						<form method="GET" action="/toy/board/goodbad.do">
+						<button class="btn btn-danger">
+							<i class="fa-regular fa-thumbs-up"></i>
+							좋아요
+							<span class="badge badge-primary">15</span>
+						</button>
+						<input type="hidden" name="seq" value="${dto.seq}">
+						<input type="hidden" name="isSearch" value="${isSearch}">
+						<input type="hidden" name="column" value="${column}">
+						<input type="hidden" name="word" value="${word}">
+						<input type="hidden" name="goodbad" value="good">
+						</form>
+						
+						<form method="GET" action="/toy/board/goodbad.do">
+						<button class="btn btn-dark">
+							<i class="fa-regular fa-thumbs-down"></i>
+							싫어요
+							<span class="badge badge-primary">5</span>
+						<input type="hidden" name="seq" value="${dto.seq}">
+						<input type="hidden" name="isSearch" value="${isSearch}">
+						<input type="hidden" name="column" value="${column}">
+						<input type="hidden" name="word" value="${word}">
+						<input type="hidden" name="goodbad" value="bad">
+						</button>
+						</form>
+						
+						<!-- ************코드 확인하기 -->
+						
+						
+					</td>
+				</tr>
+				
 			</table>
 			
 			<div class="btns">
 			
 				
 				<input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="history.back();"> 
-					
-					<!-- 돌아가기 눌렀을때 1 페이지로 이동하니까 일단 history.back()해놓음  -->
+					onclick="location.href='/toy/board/list.do?column=${column}&word=${word}';"> 
 				
 				<!-- <input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="history.back();">
-					
-					<input type="button" value="돌아가기" class="btn btn-secondary"
-					onclick="location.href='/toy/board/list.do?column=${column}&word=${word}';"> 
-					 -->
+					onclick="history.back();"> -->
 					
 					
 				<c:if test="${not empty auth}">
 				
 				<c:if test="${dto.id == auth || auth == 'admin'}">
 				<button class="btn btn-primary"
-					onclick="location.href='/toy/board/edit.do?seq=${dto.seq}';">
+					onclick="location.href='/toy/board/edit.do?seq=${dto.seq}&isSerach=${isSearch}&column=${column}&word=${word}';">
 					<i class="fas fa-pen"></i>
 					수정하기
 				</button>
 				
+				<!-- 07/01 -->
+				<!-- 수정하기만 (검색시 들어왔다가 나갈때 검색 풀리는거) 해결할테니까 그거 보면서 삭제, 답변 해결해 ****** -->
+				<!-- 여기서 href에 추가한다음 edit.java에서 수정함. 나머지도 그렇게 -->
+				<!-- 		>> view.jsp> edit.java> edit.jsp > editok.java > editok.jsp -->
 				<button class="btn btn-primary"
-					onclick="location.href='/toy/board/del.do?seq=${dto.seq}';">
+					onclick="location.href='/toy/board/del.do?seq=${dto.seq}&isSerach=${isSearch}&column=${column}&word=${word}';">
 					<i class="fas fa-pen"></i>
 					삭제하기
 				</button>
 				</c:if>
 				
 				<button class="btn btn-primary" type="button"
-					onclick="location.href='/toy/board/add.do?reply=1';">
+					onclick="location.href='/toy/board/add.do?reply=1&thread=${dto.thread}&depth=${dto.depth}&isSerach=${isSearch}&column=${column}&word=${word}';">
 					<i class="fas fa-pen"></i>
 					답변쓰기
 				</button>
@@ -89,7 +142,7 @@
 				
 			</div>
 			
-			<!-- reply가 없으면 새글쓰기, 있으면 답변쓰기 -->
+			
 			
 			<!-- 댓글 -->
 			
@@ -214,6 +267,47 @@
 			$('#editRow').remove();
 			isEdit = false;
 		}
+		
+		
+		/* 이미지 파일 화면에 출력시 크기 조절 */
+		
+		//img.onload = function() {} 같은 거
+		
+		
+		$('#imgAttach').ready(function() {
+			
+			//alert($('#imgAttach').width());
+			
+			if ($('#imgAttach').width() > 630) {
+				$('#imgAttach').width(630);
+			}
+			
+			$('#imgAttach').show();
+			
+			//view.java에서 display:none으로 하고 여기서 show해주면 깜빡임 현상 사라짐. 
+		});
+		
+		let tag = '';
+		
+		<c:forEach items="${dto.taglist}" var="tag">
+			tag += '${tag},';
+		</c:forEach>
+	
+		//alert(tag);
+		
+		$('input[name=tags]').val(tag);
+		
+		const tagify = new Tagify(document.querySelector('input[name=tags]'), {});
+	      
+	      tagify.on('click', test);
+	      
+	      function test(e) {
+	         //alert(e.detail.data.value); > 태그 값이 나옴.
+	         
+	         //태그를 함께 전송
+	         location.href = '/toy/board/list.do?tag=' + e.detail.data.value;
+	         
+	      }
 
 	</script>
 
