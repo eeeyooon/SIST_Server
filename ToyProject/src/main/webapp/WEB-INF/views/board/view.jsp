@@ -92,10 +92,7 @@
 						<input type="hidden" name="column" value="${column}">
 						<input type="hidden" name="word" value="${word}">
 						<input type="hidden" name="goodbad" value="bad">
-						</button>
 						</form>
-						
-						<!-- ************코드 확인하기 -->
 						
 						
 					</td>
