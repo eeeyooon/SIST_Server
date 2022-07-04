@@ -113,10 +113,6 @@ select * from tblBoard order by seq;
 
 
 
-
-
-
-
 -- 새로운 게시판
 create table tblBoard (
     seq number primary key,
@@ -161,9 +157,13 @@ create sequence seqTagging;
 
 select * from tblBoard order by seq desc;
 
+delete from tblBoard where seq = 324;
+
 select * from tblHashTag;
 
 select * from tblTagging;
+
+delete from tblTagging where seq = 7;
 
 --board <-> hash 테이블은  n:n 관계임    게시판(>|)- (o|<)해시
 --1번글 > 맛집, 요리, 즐거움
@@ -171,7 +171,7 @@ select * from tblTagging;
 
 
 --321번 게시글에 해당하는 태그들만 가져옴.
-select tag  from tblHashTag h inner join tblTagging t on h.seq = t.hseq where bseq = 321;
+select tag  from tblHashTag h inner join tblTagging t on h.seq = t.hseq where bseq = 324;
 
 
 --tag 검색하면 tag가 달린 게시글 전부 조회
@@ -201,7 +201,105 @@ create table tblGoodBad (
 );        
 
 create sequence seqGoodBad;
+
+
+select * from tblGoodBad order by seq asc;        
         
-        
+delete from tblGoodBad where seq = 10;
 
 commit;
+
+--한 사용자가 한 작성 글에 누른 좋아요, 싫어요 확인
+select 
+    tblBoard.*, 
+    (select name from tblUser where id = tblBoard.id) as name, 
+    nvl((select sum(good) from tblGoodBad where bseq = tblBoard.seq), 0) as good, 
+    nvl((select sum(bad) from tblGoodBad where bseq = tblBoard.seq), 0) as bad, 
+    (select
+            case
+                    when good = 1 then 1
+                    when bad = 1 then 2
+                    else 3
+            end
+            from tblGoodBad where bseq = tblBoard.seq and id = 'hong') as goodbad 
+from tblBoard where seq = 321;
+
+
+
+
+select * from tblTagging;               
+
+select * from tblBoard;             --회원별 글쓴 횟수
+select * from tblComment;      --회원별 댓글 횟수
+select * from tblHashTag;       --태그별 카운트
+select * from tblGoodBad;       --X
+
+
+-- 회원별 글쓴 횟수
+select u.id, (select name from tblUser where id = u.id) as name, (select count(*) from tblBoard where id = u.id) as cnt
+    from tblBoard b right outer
+        join tblUser u
+            on u.id = b.id  
+                group by u.id;
+
+
+--회원별 댓글 횟수
+select u.id, (select name from tblUser where id = u.id) as name, (select count(*) from tblComment where id = u.id) as cnt
+    from tblComment c right outer
+        join tblUser u
+            on u.id = c.id  
+                group by u.id;
+
+
+--태그별 카운트 순위
+select h.tag, (select count(*) from tblTagging where hseq = h.seq) as cnt
+        from tblHashTag h 
+                left outer join tblTagging t on h.seq = t.hseq 
+                        group by h.tag, h.seq;
+
+
+
+--맛집 지도(맛집 즐겨찾기)
+
+create table tblFood (
+
+        seq number primary key,                                                             --번호(PK)
+        name varchar2(100) not null,                                                     --상호명
+        lat number not null,                                                                        --위도(Latitude)
+        lng number not null,                                                                    --경도(Longitude)
+        star number(3) not null,                                                              --별점(1~5)
+        category number not null references tblCategory(seq)        --업종    
+        
+);
+
+alter table tblFood 
+    modify (star number(3));
+
+desc tblFood;
+
+
+select * from tblFood;
+
+create sequence seqFood;
+
+create table tblCategory (
+
+        seq number primary key,
+        name varchar2(100) not null,
+        marker varchar2(100) not null,
+        icon varchar2(100) not null
+
+);
+
+select * from tblCategory;
+
+insert into tblCategory values (1, '한식', 'm1', 'fa-solid fa-bowl-food');
+insert into tblCategory values (2, '양식', 'm2', 'fa-solid fa-plate-utensils');
+insert into tblCategory values (3, '카페', 'm3', 'fa-solid fa-cupcake');
+
+
+commit;
+
+delete from tblFood where seq = 2;
+
+select tblFood.*, (select marker from tblCategory where seq = tblFood.category) as marker, (select icon from tblCategory where seq = tblFood.category) as icon from tblFood order by name asc;

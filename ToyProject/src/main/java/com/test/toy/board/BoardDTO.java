@@ -36,5 +36,13 @@ public class BoardDTO {
 	private ArrayList<String> taglist;
 	
 	
+	//좋아요싫어요
+	private String good;
+	private String bad;
+	private String goodbad;
+	
+
+	
+	
 	
 }

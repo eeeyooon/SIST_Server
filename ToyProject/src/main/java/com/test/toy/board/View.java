@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.drew.imaging.ImageMetadataReader;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.GpsDirectory;
+
 @WebServlet("/board/view.do")
 public class View extends HttpServlet {
 
@@ -54,7 +58,15 @@ public class View extends HttpServlet {
 		}
 		
 		//조회수 증가를 얘보다 밑에서 하면 내가 읽은 횟수는 포함이 안됨.
-		BoardDTO dto = dao.get(seq);
+		
+		//좋아요,싫어요로 get메소드 수정하면서 여기도 수정
+		
+		BoardDTO tempdto = new BoardDTO();
+		tempdto.setSeq(seq);
+		tempdto.setId((String)session.getAttribute("auth"));
+		
+		//아직 요청만 했지 담진 않음 -> DAO에서 옮겨담기
+		BoardDTO dto = dao.get(tempdto);
 		
 		
 		
@@ -122,7 +134,54 @@ public class View extends HttpServlet {
 					//2. 이미지 크기조절방법(깜빡임현상 없앨때) > 서블릿에서 모두 해결
 					//+ String.format("<div style='margin-top: 15px;'><img src='/toy/files/%s' id='imgAttach' %s></div>"
 							//, dto.getFilename(), temp));
-		}
+			
+			
+			//07/04 추가
+			//사진의 GPS 정보 (코드 몰라도돼 알필요없음)
+			File file = new File(req.getRealPath("files") + "\\" + dto.getFilename());
+            
+            String pdsLat = ""; //위도와 경도를 담을 변수
+            String pdsLon = "";
+            
+            try {
+	            Metadata metadata = ImageMetadataReader.readMetadata(file);
+	            //모든 속성 정보가 들어있는 데이터
+	            
+	            GpsDirectory gpsDirectory = metadata.getFirstDirectoryOfType(GpsDirectory.class);
+	            //그 데이터 중에서 GPS 정보만 따로 뽑아옴.
+	            
+            // 위도,경도 호출
+            if (gpsDirectory.containsTag(GpsDirectory.TAG_LATITUDE)
+                  && gpsDirectory.containsTag(GpsDirectory.TAG_LONGITUDE)) {
+            	//GPS가 없을수도 있으니까 한번 더 확인
+            	
+               pdsLat = String.valueOf(gpsDirectory.getGeoLocation().getLatitude());
+               pdsLon = String.valueOf(gpsDirectory.getGeoLocation().getLongitude());
+               //위,경도 얻어오기
+               
+              
+      
+               if (pdsLat != null && pdsLon != null) {
+                  req.setAttribute("lat", pdsLat);
+                  req.setAttribute("lng", pdsLon);
+               }
+      
+      
+            }
+            
+            } catch(Exception e) {
+            	System.out.println(e);
+            }
+			
+			
+			
+		}//if (이미지?)
+		
+		
+		
+		
+		
+		
 		
 		
 		//3.7 댓글 목록 가져오기

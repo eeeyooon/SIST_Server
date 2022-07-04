@@ -54,7 +54,8 @@
 			</c:if>
 						
 			<li><a href="/toy/board/list.do">Board</a></li>
-			<li><a href="/toy/etc">Etc</a></li>
+			<!-- <li><a href="/toy/chart">Chart</a></li> -->
+			<li><a href="/toy/etc/map.do?no=1">Chart</a></li>
 			<li><a href="/toy/etc">Etc</a></li>
 		</ul>
 	</nav>

@@ -10,8 +10,36 @@
 <%@ include file="/WEB-INF/views/inc/asset.jsp" %>
 <link rel="stylesheet" href="/toy/asset/css/tagify.css" />
 <script src="/toy/asset/js/jQuery.tagify.min.js"></script>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=893acc1129728a3b9555fa0a4c144eae"></script>
+
 <style>
 
+	tr:last-child form {
+		margin-right: 5px;
+	}
+	
+	
+	<c:if test="${not empty dto.goodbad}">
+	#btngood, #btnbad {
+		opacity: .6;
+	}
+	</c:if>
+	
+	<c:if test="${empty dto.goodbad}">
+	#btngood, #btnbad {
+		opacity: 1;
+	}
+	</c:if>
+	
+	//07.04 GPS 추가	
+	<c:if test="${not empty lat}">
+	#map {
+		width: 100%;
+		height: 400px;
+	}
+	</c:if>
+	
 </style>
 </head>
 <body>
@@ -68,35 +96,44 @@
 				<!-- readonly를 주면 삭제할 수 없이 딱 읽기만 가능하게 -->
 				<tr>
 					<th>좋아요/싫어요</th>
-					<td>
+					<td style="display: flex;">
 						<form method="GET" action="/toy/board/goodbad.do">
-						<button class="btn btn-danger">
+						<button class="btn btn-danger" id="btnbad">
 							<i class="fa-regular fa-thumbs-up"></i>
-							좋아요
-							<span class="badge badge-primary">15</span>
+							좋아요(${dto.good})
+							<%-- <span class="badge badge-primary">${dto.good}</span> --%>
 						</button>
 						<input type="hidden" name="seq" value="${dto.seq}">
 						<input type="hidden" name="isSearch" value="${isSearch}">
 						<input type="hidden" name="column" value="${column}">
 						<input type="hidden" name="word" value="${word}">
-						<input type="hidden" name="goodbad" value="good">
+						<input type="hidden" name="good" value="1">
+						<input type="hidden" name="bad" value="0">
 						</form>
 						
 						<form method="GET" action="/toy/board/goodbad.do">
-						<button class="btn btn-dark">
+						<button class="btn btn-dark" id="btnbad">
 							<i class="fa-regular fa-thumbs-down"></i>
-							싫어요
-							<span class="badge badge-primary">5</span>
+							싫어요 (${dto.bad})
+							<%-- <span class="badge badge-primary">${dto.bad}</span> --%>
 						<input type="hidden" name="seq" value="${dto.seq}">
 						<input type="hidden" name="isSearch" value="${isSearch}">
 						<input type="hidden" name="column" value="${column}">
 						<input type="hidden" name="word" value="${word}">
-						<input type="hidden" name="goodbad" value="bad">
+						<input type="hidden" name="good" value="0">
+						<input type="hidden" name="bad" value="1">
 						</form>
 						
 						
 					</td>
 				</tr>
+				<c:if test="${not empty lat}">
+				<tr>
+					<th>위치</th>
+					<td><div id="map"></div></td>
+				</tr>
+				</c:if>
+				<!-- 07.04 GPS 추가 -->
 				
 			</table>
 			
@@ -305,6 +342,31 @@
 	         location.href = '/toy/board/list.do?tag=' + e.detail.data.value;
 	         
 	      }
+	      
+	      
+	      
+	      //07.04 추가 GPS
+	      
+	      <c:if test="${not empty lat}">
+     	 	var container = document.getElementById('map');
+     	 	
+			var options = {
+				center: new kakao.maps.LatLng(${lat}, ${lng}),
+				level: 3
+			};
+		
+			var map = new kakao.maps.Map(container, options);
+			
+			var m = new Kakao.maps.Marker({
+				position: new kakao.maps.LatLng(${lat}, ${lng})
+			});
+			
+			m.setMap(map);
+			
+		</c:if>
+	     
+	      
+	      
 
 	</script>
 

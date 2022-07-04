@@ -76,6 +76,15 @@ public class DelOk extends HttpServlet {
 				file.delete();
 			}
 			
+			
+			//태그 삭제
+			dao.delTag(seq);
+			
+			
+			//좋아요,싫어요 삭제
+			dao.delGoodBad(seq);
+			
+			
 			//원글 삭제
 			result = dao.del(seq);
 			
