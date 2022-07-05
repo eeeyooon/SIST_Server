@@ -229,6 +229,65 @@ https://www.jqueryscript.net/form/Tiny-Text-Field-Based-Tags-Input-Plugin-For-jQ
 			  
 			  				   
 
+07/05
+
+
+
+Ajax, Asynchronous JavaScript and XML
+- 비동기 자바스크립트 and XML
+- 자바스크립트 기반 비동기 통신 기법
+- 브라우저와 웹 서버 간의 자바 스크립트를 사용한 데이터를 주고 받는 기술
+- ~ 현재: 브라우저(크롬) ~ 웹 서버(아파치 톰캣)
+
+
+
+네트워크 통신 방식
+- 동기 통신
+- 비동기 통신
+
+
+Ajax 구현 방식
+1. XMLHttpRequest 사용
+2. jQuery Ajax 사용
+3. fetch 사용
+
+
+
+
+- "com.test.toy.ajax" > "AjaxDAO.java"
+					  > "Ex01.java"
+					  > "ReserachDTO.java"
+
+- views > "ajax" > "ex01.jsp"
+
+DB
+- script.sql 이어서
+
+
+서버 갱신 데이터 > 브라우저 전달 (새로고침을 해야 데이터가 전달이 됨.)
+1. 새로고침 > 프로그램 (setTimer로 5초 뒤 자동으로 새로고침하게 함 > 계속 새로고침이 설정된 화면에 있어야 하고, 5초의 갭이 O)
+2. <frame>, <iframe> 사용 -> 새로고침 문제를 조금 해결하긴 했는데 워낙 오래된 기술임.
+3. Ajax <-> ActiveX, Applet
+	-Ajax : 양방향은 아님. 그래도 1,2번 방법보단 유용
+4. WebSocket : Ajax로 할 수 있는 일이면 Ajax로 하는게 나음. > WebSocket은 좀 더 까다롭고 비용이 듦.
+
+
+
+Ajax
+- com.test.toy.ajax > "Ex02.java"
+- views > ajax > "ex02.jsp"
+				ex02data2
+
+
+
+
+ 아이디 중복 검사
+ - com.test.toy.ajax > "Ex03.java"
+ 					 > "IdCheck.java"
+ 					 > "IdCheckOk.java"
+ 					 
+
+
 
 
 

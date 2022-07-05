@@ -294,8 +294,8 @@ create table tblCategory (
 select * from tblCategory;
 
 insert into tblCategory values (1, '한식', 'm1', 'fa-solid fa-bowl-food');
-insert into tblCategory values (2, '양식', 'm2', 'fa-solid fa-plate-utensils');
-insert into tblCategory values (3, '카페', 'm3', 'fa-solid fa-cupcake');
+insert into tblCategory values (2, '양식', 'm2', 'fa-solid fa-utensils');
+insert into tblCategory values (3, '카페', 'm3', 'fa-solid fa-mug-saucer');
 
 
 commit;
@@ -303,3 +303,60 @@ commit;
 delete from tblFood where seq = 2;
 
 select tblFood.*, (select marker from tblCategory where seq = tblFood.category) as marker, (select icon from tblCategory where seq = tblFood.category) as icon from tblFood order by name asc;
+
+
+
+--Ajax
+
+-- 설문(질문) <-> 설문 항목
+-- ^
+-- |
+-- 선택
+
+
+--설문조사
+--**정규화는 무시하고 단순하게
+
+create table tblResearch (
+        seq number primary key,
+        question varchar2(500) not null,
+        item1 varchar2(300) not null,
+        item2 varchar2(300) not null,
+        item3 varchar2(300) not null,
+        item4 varchar2(300) not null,
+        cnt1 number default 0 not null,
+        cnt2 number default 0 not null,
+        cnt3 number default 0 not null,
+        cnt4 number default 0 not null
+);
+
+insert into tblResearch values (1, '가장 잘 사용하는 프로그래밍 언어는?', 'JAVA', 'Python', 'Visual C++', 'Node.js', default, default, default, default);
+
+select * from tblResearch;
+
+
+update tblResearch set
+        cnt1 = 10,
+        cnt2 = 17,
+        cnt3 = 5, 
+        cnt4 = 10
+where seq = 1;
+
+
+commit;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
