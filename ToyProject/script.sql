@@ -349,10 +349,13 @@ commit;
 
 
 
+--07/06
 
+select * from tblBoard;
 
+select * from tblInsa;
 
-
+select * from tblAddress;
 
 
 

@@ -112,13 +112,80 @@ public class AjaxDAO {
 		
 		return 0;
 	}
-	
-	
+
+	public ArrayList<String> listBuseo() {
+		
+		try {
+			
+			String sql = "select distinct buseo from tblInsa order by buseo asc";
+			
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<String> blist = new ArrayList<String>();
+			
+			while (rs.next()) {
+				
+				blist.add(rs.getString("buseo"));
+				
+			}
+			
+			return blist;
+			
+		} catch (Exception e) {
+			System.out.println("AjaxDAO.listBuseo");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+	}
+
+	public ArrayList<BuseoDTO> listInsa(String buseo) {
+		
+		try {
+			
+			//선택한 부서 직원 명단 가져오기
+			
+			String sql = "select num, name, jikwi, tel, city from tblInsa where buseo = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1,  buseo);
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<BuseoDTO> list = new ArrayList<BuseoDTO>();
+			
+			while (rs.next()) {
+				
+				//레코드 1개 > 직원 1명 > BuseoDTO 1개
+				BuseoDTO dto = new BuseoDTO();
+				
+				dto.setNum(rs.getString("num"));
+				dto.setName(rs.getString("name"));
+				dto.setJikwi(rs.getString("jikwi"));
+				dto.setTel(rs.getString("tel"));
+				dto.setCity(rs.getString("city"));
+				
+				list.add(dto);
+			}
+			
+			return list;
+			
+			
+		} catch (Exception e) {
+			System.out.println("AjaxDAO.listInsa");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+	}
+
+
+
 }
-
-
-
-
 
 
 

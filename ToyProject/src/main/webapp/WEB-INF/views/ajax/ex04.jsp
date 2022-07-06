@@ -29,6 +29,10 @@
 			
 			<hr>
 			
+			<input type="text">
+			
+			<hr>
+			
 			<h4>통신 패턴 3가지</h4>
 			
 			<input type="button" value="1. 서버로부터 데이터 가져오기" class="btn btn-primary" id="bnt3">
@@ -95,7 +99,7 @@
 			ajax.open('GET', '/toy/ajax/ex04data3.do');
 			ajax.onreadystatechange = function () { //데이터 수신을 위해서(***)
 				if (ajax.readyState == 4 && ajax.status == 200) {
-					
+					alert(ajax.responseText);
 				}
 			};
 			
@@ -107,9 +111,9 @@
 			//데이터 보내기(GET, POST)
 			
 			ajax = new XMLHttpRequest();
-			ajax.open('POST', '/toy/ajax/ex04data4.do'); //데이터 전송(GET)
-			ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoder");
-			ajax.send('name=bbb'); //데이터 전송(POST)
+			ajax.open('POST', '/toy/ajax/ex04data4.do?name1=aaa'); //데이터 전송(GET)
+			ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
+			ajax.send('name2=bbb'); //데이터 전송(POST)
 			
 		)};
 	
@@ -118,13 +122,12 @@
 			
 			ajax = new XMLHttpRequest();
 			ajax.open('GET', '/toy/ajax/ex04data5.do?name=hong'); //데이터 보내고
-			ajax.onreadystatechange = function() { //데이터 수신을 위해서 ***
-				if (ajax.readyState == 4 && ajax.status == 200 {
+			ajax.onreadystatechange = function() { //데이터 수신을 위해서(***)
+				if (ajax.readyState == 4 && ajax.status == 200) {
 					alert(ajax.responseText);
-				});
-			}
-			
-			ajax.send(); //데이터 전송(POST)
+				}
+			};
+			ajax.send();	 //데이터 전송(POST)
 			
 			
 		)};
@@ -165,7 +168,15 @@
 				url: '/toy/ajax/ex04data4.do', //ajax.open('GET', 'URL') - 요청주소
 				
 				//success는 응답할때만 사용. 여기선 사용 x (대신 보낼때 사용) -> 보낼땐 data로
-				data: 'name1=hong&name2=lee'; //여기엔 무조건 QueryString 담아야함. > key=value형태로
+				data: 'name1=hong&name2=lee', //여기엔 무조건 QueryString 담아야함. > key=value형태로
+				
+				success: function(result) {
+					
+					
+					//result == ajax.responseText
+					alert(result);
+					
+				},
 				
 				error: function(a,b,c) { //에러가 발생하면 호출
 					console.log(a,b,c);

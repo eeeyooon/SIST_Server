@@ -290,6 +290,47 @@ Ajax
 
 
 
+07/06
+
+ajax 패키지 만들기
+
+tblInsa 목록 페이지
+- com.test.toy.ajax > "Ex06.java"
+					> "Ex06Data.java"
+- views > ajax > "ex06.jsp"
+
+
+Ajax + CRUD 문제(수정뺴고)
+
+- tblAddress 테이블(번호, 이름, 나이, 주소, 성별, 연락처)
+
+- com.test.toy.ajax > "Ex07.java"		> "/ajax/ex07.do"
+					> "Ex07Add.java"	> "/ajax/ex07add.do"
+					> "Ex07Del.java"	> "/ajax/ex07del.do"
+					> "AddressDTO.java"
+- views > ajax > "ex07.jsp"
+
+
+요구사항
+- 모든 행동이 페이지 새로고침 없이 진행되게 구현하시오. (*****)
+1. ex07.do 접속 시 > tblAddress의 모든 항목을 테이블에 출력하시오. > 전통 MVC 방식 (Ajax아니고)
+2. 입력 폼 > 데이터 작성 > 등록하기 버튼 > DB에 insert :: Ajax 방식
+								  > 방금 등록한 데이터를 테이블에 반영 (추가를 Ajax로 했으니 반영도 Ajax로)
+3. 삭제 버튼 클릭 > DB에 delete :: Ajax 방식
+			   > 방금 삭제된 데이터를 테이블에 반영
+
+4. 상단 성별 버튼 클릭 > 클릭한 성별만 데이터에 반영 :: Ajax 방식
+				   > "Ex07Search.java"
+				   			   
+
+
+
+
+
+
+
+
+
 
 
 
