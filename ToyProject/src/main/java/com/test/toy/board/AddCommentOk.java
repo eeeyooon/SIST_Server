@@ -41,7 +41,7 @@ public class AddCommentOk extends HttpServlet {
 		String word = req.getParameter("word");
 		
 		
-		//3.
+		//3.+ 4.
 		CommentDTO dto = new CommentDTO();
 		
 		dto.setContent(content);

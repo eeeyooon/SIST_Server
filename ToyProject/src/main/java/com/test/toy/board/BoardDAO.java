@@ -905,6 +905,39 @@ public class BoardDAO {
 		
 	return null;
 	}
+
+
+	public CommentDTO getComment() {
+		
+		try {
+			
+			//방금 작성한 댓글
+			String sql = "select tblComment.*, (select name from tblUser where id = tblComment.id) as name from tblComment where seq = (select max(seq) from tblComment)";
+			
+			stat = conn.createStatement();
+			rs = stat.executeQuery(sql);
+			
+			CommentDTO dto = new CommentDTO();
+			
+			if (rs.next()) {
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setPseq(rs.getString("pseq"));
+			}
+			
+			return dto;
+			
+		} catch (Exception e) {
+			System.out.println("BoardDAO.getComment");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+	}
 	
 	
 	

@@ -325,6 +325,16 @@ Ajax + CRUD 문제(수정뺴고)
 
 
 
+07/07
+Ajax > 게시판에 적용해보기 > 댓글 쓰기, 수정, 삭제
+
+jQuery Draggable + Ajax
+- com.test.toy.ajax > "Ex08.java"
+					> "Ex08Data.java"
+- views > ajax > "ex08.jsp"
+
+
+
 
 
 

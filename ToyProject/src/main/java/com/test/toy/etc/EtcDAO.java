@@ -116,6 +116,33 @@ try {
 		
 		return null;
 	}
+
+	public int addMovie(MovieDTO dto) {
+		
+		
+		try {
+			
+			String sql = "insert into tblNaverMovie (seq, title, category, time, rdate, director, actor, poster) values (seqMovie.nextVal, ?, ?, ?, ?, ?, ?, ?)";
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, dto.getTitle());
+			pstat.setString(2, dto.getCategory());
+			pstat.setString(3, dto.getTime());
+			pstat.setString(4, dto.getRdate());
+			pstat.setString(5, dto.getDirector());
+			pstat.setString(6, dto.getActor());
+			pstat.setString(7, dto.getPoster());
+			
+			return pstat.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("EtcDAO.addMovie");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
 	
 }
 

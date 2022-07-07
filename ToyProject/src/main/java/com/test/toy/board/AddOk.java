@@ -57,13 +57,10 @@ public class AddOk extends HttpServlet {
 											"UTF-8",
 											new DefaultFileRenamePolicy()
 										);
-					
-					
 			
 		} catch (Exception e) {
 			System.out.println("AddOk.doPost");
 			e.printStackTrace();
-
 		}
 		
 		//2.
@@ -118,7 +115,7 @@ public class AddOk extends HttpServlet {
 		
 		
 		//2.7 업로드 파일 처리
-		String filename = multi.getFilesystemName("attach");
+		String filename    = multi.getFilesystemName("attach");
 		String orgfilename = multi.getOriginalFileName("attach");
 		
 		

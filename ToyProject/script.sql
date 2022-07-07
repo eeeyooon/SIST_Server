@@ -359,6 +359,58 @@ select * from tblAddress;
 
 
 
+--07/07
+
+select * from tblComment order by seq asc;
+
+--최신 댓글 가져오기
+select tblComment.*, (select name from tblUser where id = tblComment.id) as name from tblComment where seq = (select max(seq) from tblComment);
+
+
+--Ajax + Draggable
+create table tblDraggable (
+        
+        id varchar2(30) primary key,                --태그id(pK)
+        left number not null,                               --x좌표
+        top number not null                                 --y좌표
+);
+
+
+
+
+insert into tblDraggable (id, left, top) values ('cat01', 0, 0);
+insert into tblDraggable (id, left, top) values ('cat02', 0, 0);
+insert into tblDraggable (id, left, top) values ('cat03', 0, 0);
+
+select * from tblDraggable;
+
+
+commit;
+
+select * from tblMovie;
+
+drop table tblMovie;
+
+     
+select * from tblGrade;
+drop table tblGrade;
+
+--크롤링 네이버 영화
+create table tblNaverMovie (
+        
+        seq number primary key,
+        title varchar2(200) not null,
+        category varchar2(200) not null,
+        time number not null,
+        rdate varchar2(10) not null,
+        director varchar2(100) not null,
+        actor varchar2(200) null,
+        poster varchar2(300) not null
+);
+
+create sequence seqMovie;
+
+select * from tblNaverMovie;
 
 
 
